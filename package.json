@@ -8,14 +8,16 @@
     "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
   },
   "scripts": {
-    "build": "node utils/build.js",
-    "start": "node utils/webserver.js",
+    "build": "node utils/build_extension.js && node utils/build_app.js ",
+    "start": "node utils/webserver_extension.js && node utils/webserver_app.js",
     "prettier": "prettier --write '**/*.{js,jsx,css,html}'"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
     "@types/chrome": "0.0.104",
     "@types/react": "^16.9.26",
+    "binary-parser": "^1.6.2",
+    "nodemon": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.20"

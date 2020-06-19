@@ -31,7 +31,31 @@ if (fileSystem.existsSync(secretsPath)) {
   alias['secrets'] = secretsPath;
 }
 
-var options = {
+var style_loader = {
+  test: /\.css$/,
+  loader: 'style-loader!css-loader',
+  exclude: /node_modules/,
+};
+
+var file_loader = {
+  test: new RegExp('.(' + fileExtensions.join('|') + ')$'),
+  loader: 'file-loader?name=[name].[ext]',
+  exclude: /node_modules/,
+};
+
+var html_loader = {
+  test: /\.html$/,
+  loader: 'html-loader',
+  exclude: /node_modules/,
+};
+
+var babel_loader = {
+  test: /\.(js|jsx)$/,
+  loader: 'babel-loader',
+  exclude: /node_modules/,
+};
+
+var chrome_extensions = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
     newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.jsx'),
@@ -44,32 +68,11 @@ var options = {
     notHotReload: ['contentScript'],
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'build', 'extension'),
     filename: '[name].bundle.js',
   },
   module: {
-    rules: [
-      {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: new RegExp('.(' + fileExtensions.join('|') + ')$'),
-        loader: 'file-loader?name=[name].[ext]',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.html$/,
-        loader: 'html-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-      },
-    ],
+    rules: [style_loader, file_loader, html_loader, babel_loader],
   },
   resolve: {
     alias: alias,
@@ -90,7 +93,7 @@ var options = {
       [
         {
           from: 'src/manifest.json',
-          to: path.join(__dirname, 'build'),
+          to: path.join(__dirname, 'build', 'extension'),
           force: true,
           transform: function (content, path) {
             // generates the manifest file using the package.json informations
@@ -113,7 +116,7 @@ var options = {
       [
         {
           from: 'src/pages/Content/content.styles.css',
-          to: path.join(__dirname, 'build'),
+          to: path.join(__dirname, 'build', 'extension'),
           force: true,
         },
       ],
@@ -153,7 +156,7 @@ var options = {
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map';
+  chrome_extensions.devtool = 'cheap-module-eval-source-map';
 }
 
-module.exports = options;
+module.exports = chrome_extensions;
