@@ -1,10 +1,11 @@
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
+process.env.ASSET_PATH = '/';
 
 var WebpackDevServer = require('webpack-dev-server'),
   webpack = require('webpack'),
-  config = require('../webpack.config.app'),
+  config = require('../webpack.config'),
   env = require('./env'),
   path = require('path');
 
@@ -14,7 +15,7 @@ var excludeEntriesToHotReload = options.notHotReload || [];
 for (var entryName in config.entry) {
   if (excludeEntriesToHotReload.indexOf(entryName) === -1) {
     config.entry[entryName] = [
-      'webpack-dev-server/client?http://localhost:' + env.PORT_APP,
+      'webpack-dev-server/client?http://localhost:' + env.PORT,
       'webpack/hot/dev-server',
     ].concat(config.entry[entryName]);
   }
@@ -29,14 +30,21 @@ delete config.chromeExtensionBoilerplate;
 var compiler = webpack(config);
 
 var server = new WebpackDevServer(compiler, {
+  https: false,
   hot: true,
-  contentBase: path.join(__dirname, '../build', 'app'),
-  // sockPort: env.PORT,
-  // port: env.PORT,
+  injectClient: false,
+  writeToDisk: true,
+  port: env.PORT,
+  contentBase: path.join(__dirname, '../build'),
+  publicPath: `http://localhost:${env.PORT}`,
   headers: {
     'Access-Control-Allow-Origin': '*',
   },
   disableHostCheck: true,
 });
 
-server.listen(env.PORT_APP);
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept();
+}
+
+server.listen(env.PORT);
