@@ -2,10 +2,10 @@ var webpack = require('webpack'),
   path = require('path'),
   fileSystem = require('fs-extra'),
   env = require('./utils/env'),
-  { CleanWebpackPlugin } = require('clean-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   TerserPlugin = require('terser-webpack-plugin');
+var { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
@@ -45,11 +45,12 @@ var options = {
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
-    notHotReload: ['contentScript', 'devtools'],
+    notHotReload: ['background', 'contentScript', 'devtools'],
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
     filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'build'),
+    clean: true,
     publicPath: ASSET_PATH,
   },
   module: {
@@ -75,11 +76,12 @@ var options = {
       },
       {
         test: new RegExp('.(' + fileExtensions.join('|') + ')$'),
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        },
+        type: 'asset/resource',
         exclude: /node_modules/,
+        // loader: 'file-loader',
+        // options: {
+        //   name: '[name].[ext]',
+        // },
       },
       {
         test: /\.html$/,
@@ -108,12 +110,8 @@ var options = {
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
   },
   plugins: [
+    new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
-    // clean the build folder
-    new CleanWebpackPlugin({
-      verbose: true,
-      cleanStaleWebpackAssets: true,
-    }),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.EnvironmentPlugin(['NODE_ENV']),
     new CopyWebpackPlugin({
