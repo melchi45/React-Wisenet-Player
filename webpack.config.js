@@ -43,6 +43,8 @@ var options = {
     contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
     devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
+    main: path.join(__dirname, 'src', 'pages', 'Main', 'index.jsx'),
+    apps: path.join(__dirname, 'src', 'pages', 'Apps', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['background', 'contentScript', 'devtools'],
@@ -188,6 +190,18 @@ var options = {
       template: path.join(__dirname, 'src', 'pages', 'Panel', 'index.html'),
       filename: 'panel.html',
       chunks: ['panel'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'Main', 'index.html'),
+      filename: 'main.html',
+      chunks: ['main'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'Apps', 'index.html'),
+      filename: 'apps.html',
+      chunks: ['apps'],
       cache: false,
     }),
   ],
