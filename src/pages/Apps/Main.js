@@ -4,6 +4,9 @@ import Switch from 'react-switch';
 import { FaHeart, FaBars } from 'react-icons/fa';
 import reactLogo from './assets/logo.svg';
 
+// import { UmpPlayer } from 'ump-player';
+import 'ump-player/dist/ump-player.min.js';
+
 const Main = ({
   collapsed,
   rtl,
@@ -47,7 +50,24 @@ const Main = ({
           </a>
         </div>
       </header>
-      <div className="block ">
+      <div className="player-block">
+        <ump-player
+          id="ump-player1"
+          hostname="127.0.0.1"
+          password="5tkatjd!"
+          profile="H.264"
+          port="9878"
+          device="camera"
+          width="auto"
+          height="auto"
+          username="admin"
+          autoplay
+          statistics
+          android
+          https
+        ></ump-player>
+      </div>
+      <div className="block">
         <Switch
           height={16}
           width={30}

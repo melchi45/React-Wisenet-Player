@@ -171,6 +171,16 @@ var options = {
         },
       ],
     }),
+    // copy resource for worker on ump player.
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/ump-player/dist/media',
+          to: 'media',
+          force: true,
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),
       filename: 'newtab.html',

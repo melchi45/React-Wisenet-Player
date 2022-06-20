@@ -20,7 +20,8 @@
     "react-icons": "^4.4.0",
     "react-intl": "^6.0.4",
     "react-scripts": "^5.0.1",
-    "react-switch": "^7.0.0"
+    "react-switch": "^7.0.0",
+    "ump-player": "git+https://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:x-oauth-basic@github.com/melchi45/uwa_ump.git"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
