@@ -175,7 +175,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/ump-player/dist/media',
+          from: 'node_modules/@melchi45/ump-player/dist/media',
           to: 'media',
           force: true,
         },

@@ -27,5 +27,27 @@
       "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
       "matches": []
     }
+  ],
+  "content_security_policy": {
+    "default-src": "self",
+    "script-src": "self allow-scripts; https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js",
+    "object-src": "self",
+    "script-src-elem": "self allow-scripts; https://cdnjs.cloudflare.com",
+    "sandbox": "sandbox allow-scripts; https://apis.google.com https://apis.google.com/js/client.js https://ajax.googleapis.com https://designshack.net/favicon.ico https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js https://aui-cdn.atlassian.com https://netdna.bootstrapcdn.com https://tarruda.github.com  https://cdnjs.cloudflare.com https://ydn-src-2.storage.googleapis.com  https://www.google.com/"
+  },
+  "permissions": [
+    "storage",
+    "clipboardRead",
+    "notifications",
+    "webview",
+    "system.network",
+    "system.memory",
+    "system.cpu",
+    "serial",
+    "*://localhost/*",
+    "*://*/*",
+    "https://cdnjs.cloudflare.com/*/",
+    "https://www.google.com",
+    "<all_urls>"
   ]
 }
