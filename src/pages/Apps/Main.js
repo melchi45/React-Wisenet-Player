@@ -4,8 +4,8 @@ import Switch from 'react-switch';
 import { FaHeart, FaBars } from 'react-icons/fa';
 import reactLogo from './assets/logo.svg';
 
-// import { UmpPlayer } from 'ump-player';
-import 'ump-player/dist/ump-player.min.js';
+import Player from '../../components/ump-player/Player';
+import device from '../../assets/json/device.json';
 
 const Main = ({
   collapsed,
@@ -24,7 +24,8 @@ const Main = ({
       </div>
       <header>
         <h1>
-          <img width={80} src={reactLogo} alt="react logo" /> {intl.formatMessage({ id: 'title' })}
+          <img width={80} src={reactLogo} alt="react logo" />{' '}
+          {intl.formatMessage({ id: 'title' })}
         </h1>
         <p>{intl.formatMessage({ id: 'description' })}</p>
         <div className="social-bagdes">
@@ -51,21 +52,7 @@ const Main = ({
         </div>
       </header>
       <div className="player-block">
-        <ump-player
-          id="ump-player1"
-          hostname="127.0.0.1"
-          password="5tkatjd!"
-          profile="H.264"
-          port="9878"
-          device="camera"
-          width="auto"
-          height="auto"
-          username="admin"
-          autoplay
-          statistics
-          android
-          https
-        ></ump-player>
+        <Player device={device} />
       </div>
       <div className="block">
         <Switch
@@ -109,20 +96,33 @@ const Main = ({
 
       <footer>
         <small>
-          © {new Date().getFullYear()} made with <FaHeart style={{ color: 'red' }} /> by -{' '}
-          <a target="_blank" rel="noopener noreferrer" href="https://azouaoui.netlify.com">
+          © {new Date().getFullYear()} made with{' '}
+          <FaHeart style={{ color: 'red' }} /> by -{' '}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://azouaoui.netlify.com"
+          >
             Mohamed Azouaoui
           </a>
         </small>
         <br />
         <div className="social-bagdes">
-          <a href="https://github.com/azouaoui-med" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/azouaoui-med"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               alt="GitHub followers"
               src="https://img.shields.io/github/followers/azouaoui-med?label=github&style=social"
             />
           </a>
-          <a href="https://twitter.com/azouaoui_med" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://twitter.com/azouaoui_med"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               alt="Twitter Follow"
               src="https://img.shields.io/twitter/follow/azouaoui_med?label=twitter&style=social"

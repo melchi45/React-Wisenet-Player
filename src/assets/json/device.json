@@ -1,0 +1,12 @@
+{
+  "hostname": "127.0.0.1",
+  "port": 9878,
+  "username": "admin",
+  "password": "5tkatjd!",
+  "profile": "H.264",
+  "device": "camera",
+  "autoplay": true,
+  "statistics": true,
+  "android": true,
+  "https": true
+}
