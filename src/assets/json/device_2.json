@@ -1,12 +1,12 @@
 {
-  "hostname": "127.0.0.1",
-  "port": 9878,
+  "id": "ump-player2",
+  "hostname": "192.168.212.144",
+  "port": 80,
   "username": "admin",
   "password": "5tkatjd!",
   "profile": "H.264",
   "device": "camera",
   "autoplay": true,
   "statistics": true,
-  "android": true,
-  "https": true
+  "https": false
 }

@@ -32,17 +32,11 @@ function Layout({ setLocale }) {
         rtl={rtl}
         toggled={toggled}
         handleToggleSidebar={handleToggleSidebar}
-      />
-      <Main
-        image={image}
-        toggled={toggled}
-        collapsed={collapsed}
-        rtl={rtl}
-        handleToggleSidebar={handleToggleSidebar}
         handleCollapsedChange={handleCollapsedChange}
         handleRtlChange={handleRtlChange}
         handleImageChange={handleImageChange}
       />
+      <Main toggled={toggled} handleToggleSidebar={handleToggleSidebar} />
     </div>
   );
 }

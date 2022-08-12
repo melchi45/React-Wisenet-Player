@@ -7,8 +7,49 @@
   bottom: 30px;
   position: absolute;
   z-index: 1000;
-  min-width: 23em;
-  min-height: 11em;
-  font-size: 14px;
+  min-width: 55em;
+  min-height: 25em;
+  font-size: 7px;
   font-family: 'Roboto', sans-serif;
+}
+
+.statistics div {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+  font-size: 10px;
+  font-family: arial;
+  text-align: right;
+  border-radius: 4px;
+  color: #FFF;
+  left: 1px;
+  position: absolute;
+  z-index: 65;
+  min-width: 8em;
+  min-height: 1em;
+}
+
+.statistics span {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+  font-size: 10px;
+  font-family: arial;
+  text-align: left;
+  border-radius: 4px;
+  color: #FFF;
+  left: 110px;
+  position: absolute;
+  z-index: 65;
+  min-width: 25em;
+  min-height: 1em;
+}
+
+.ball {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin: 0 4px;
 }

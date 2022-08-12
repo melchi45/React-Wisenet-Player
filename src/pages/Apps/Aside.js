@@ -9,10 +9,27 @@ import {
   SidebarFooter,
   SidebarContent,
 } from 'react-pro-sidebar';
-import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa';
+import Switch from 'react-switch';
+import {
+  FaTachometerAlt,
+  FaGem,
+  FaList,
+  FaGithub,
+  FaRegLaughWink,
+  FaHeart,
+} from 'react-icons/fa';
 import sidebarBg from './assets/bg2.jpg';
 
-const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
+const Aside = ({
+  toggled,
+  collapsed,
+  rtl,
+  image,
+  handleToggleSidebar,
+  handleCollapsedChange,
+  handleRtlChange,
+  handleImageChange,
+}) => {
   const intl = useIntl();
   return (
     <ProSidebar
@@ -44,11 +61,18 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
         <Menu iconShape="circle">
           <MenuItem
             icon={<FaTachometerAlt />}
-            suffix={<span className="badge red">{intl.formatMessage({ id: 'new' })}</span>}
+            suffix={
+              <span className="badge red">
+                {intl.formatMessage({ id: 'new' })}
+              </span>
+            }
           >
             {intl.formatMessage({ id: 'dashboard' })}
           </MenuItem>
-          <MenuItem icon={<FaGem />}> {intl.formatMessage({ id: 'components' })}</MenuItem>
+          <MenuItem icon={<FaGem />}>
+            {' '}
+            {intl.formatMessage({ id: 'components' })}
+          </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <SubMenu
@@ -69,16 +93,25 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
             <MenuItem>{intl.formatMessage({ id: 'submenu' })} 2</MenuItem>
             <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3</MenuItem>
           </SubMenu>
-          <SubMenu title={intl.formatMessage({ id: 'multiLevel' })} icon={<FaList />}>
+          <SubMenu
+            title={intl.formatMessage({ id: 'multiLevel' })}
+            icon={<FaList />}
+          >
             <MenuItem>{intl.formatMessage({ id: 'submenu' })} 1 </MenuItem>
             <MenuItem>{intl.formatMessage({ id: 'submenu' })} 2 </MenuItem>
             <SubMenu title={`${intl.formatMessage({ id: 'submenu' })} 3`}>
               <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3.1 </MenuItem>
               <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3.2 </MenuItem>
               <SubMenu title={`${intl.formatMessage({ id: 'submenu' })} 3.3`}>
-                <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3.3.1 </MenuItem>
-                <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3.3.2 </MenuItem>
-                <MenuItem>{intl.formatMessage({ id: 'submenu' })} 3.3.3 </MenuItem>
+                <MenuItem>
+                  {intl.formatMessage({ id: 'submenu' })} 3.3.1{' '}
+                </MenuItem>
+                <MenuItem>
+                  {intl.formatMessage({ id: 'submenu' })} 3.3.2{' '}
+                </MenuItem>
+                <MenuItem>
+                  {intl.formatMessage({ id: 'submenu' })} 3.3.3{' '}
+                </MenuItem>
               </SubMenu>
             </SubMenu>
           </SubMenu>
@@ -86,6 +119,45 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
       </SidebarContent>
 
       <SidebarFooter style={{ textAlign: 'center' }}>
+        <div className="block">
+          <Switch
+            height={16}
+            width={30}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onChange={handleCollapsedChange}
+            checked={collapsed}
+            onColor="#219de9"
+            offColor="#bbbbbb"
+          />
+          <span> {intl.formatMessage({ id: 'collapsed' })}</span>
+        </div>
+        <div className="block">
+          <Switch
+            height={16}
+            width={30}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onChange={handleRtlChange}
+            checked={rtl}
+            onColor="#219de9"
+            offColor="#bbbbbb"
+          />
+          <span> {intl.formatMessage({ id: 'rtl' })}</span>
+        </div>
+        <div className="block">
+          <Switch
+            height={16}
+            width={30}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onChange={handleImageChange}
+            checked={image}
+            onColor="#219de9"
+            offColor="#bbbbbb"
+          />
+          <span> {intl.formatMessage({ id: 'image' })}</span>
+        </div>
         <div
           className="sidebar-btn-wrapper"
           style={{
@@ -99,7 +171,13 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
             rel="noopener noreferrer"
           >
             <FaGithub />
-            <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+            <span
+              style={{
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+              }}
+            >
               {intl.formatMessage({ id: 'viewSource' })}
             </span>
           </a>

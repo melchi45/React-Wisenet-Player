@@ -3,7 +3,17 @@ import React, { Component } from 'react';
 // import Chart from 'chart.js/auto';
 // import { StreamingPlugin, RealTimeScale } from 'chartjs-plugin-streaming';
 
+// import { appendScript } from '../common/appendScript';
+// import { removeScript } from '../common/removeScript';
+// import { importScript } from '../common/importScript';
+
+// import crypto from 'crypto-js';
+// import { importScript } from 'components/common/importScripts';
 import '@melchi45/ump-player';
+
+import './styles/Player.scss';
+
+var log4javascript = require('log4javascript');
 
 // import './styles/Player.scss';
 
@@ -102,10 +112,23 @@ class Player extends Component {
   constructor(props) {
     super(props);
 
+    // importScript('js/log4javascript/log4javascript.js');
+
+    window.verboseLevel('info', window.logger.rtsp);
+
     // state 초기값 설정
     this.state = {
       index: 0,
     };
+  }
+
+  componentDidMount() {
+    // appendScript('js/log4javascript/log4javascript.js');
+    // appendScript('js/crypto-js/crypto-js.js');
+  }
+  componentDidUnmount() {
+    // removeScript('js/log4javascript/log4javascript.js');
+    // removeScript('js/crypto-js/crypto-js.js');
   }
 
   // updateScales() {
@@ -134,7 +157,21 @@ class Player extends Component {
   // }
 
   onError = (event) => {
-    console.log('onError: ' + event);
+    console.log('onError: ' + window.fastJsonStringfy(event.detail));
+
+    switch (window.toHex(event.detail.error)) {
+      case '0x0000':
+        console.log('play started');
+        break;
+      case '0x0001':
+        console.log('play stopped');
+        break;
+      case '0x0203':
+        console.log('try reconnect');
+        break;
+      default:
+        break;
+    }
   };
 
   onMeta = (event) => {
@@ -162,7 +199,7 @@ class Player extends Component {
   };
 
   onStatistics = (event) => {
-    console.log('onStatistics: ' + window.fastJsonStringfy(event.detail));
+    // console.log('onStatistics: ' + window.fastJsonStringfy(event.detail));
 
     if (event.detail.statistics.type === 'network') {
       console.log('network data');
@@ -316,7 +353,7 @@ class Player extends Component {
   }
 
   render() {
-    this.props.device.id = 'player-index-' + this.state.index;
+    // this.props.device.id = 'player-index-' + this.state.index;
     const attrs = this.props.device;
 
     return (

@@ -44,7 +44,7 @@ var options = {
     devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
     main: path.join(__dirname, 'src', 'pages', 'Main', 'index.jsx'),
-    apps: path.join(__dirname, 'src', 'pages', 'Apps', 'index.jsx'),
+    apps: [path.join(__dirname, 'src', 'pages', 'Apps', 'index.jsx')],
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['background', 'contentScript', 'devtools'],
@@ -177,6 +177,24 @@ var options = {
         {
           from: 'node_modules/@melchi45/ump-player/dist/media',
           to: 'media',
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/log4javascript/log4javascript.js',
+          to: 'js/log4javascript/log4javascript.js',
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/crypto-js/crypto-js.js',
+          to: 'js/crypto-js/crypto-js.js',
           force: true,
         },
       ],

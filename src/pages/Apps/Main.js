@@ -1,21 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Switch from 'react-switch';
 import { FaHeart, FaBars } from 'react-icons/fa';
 import reactLogo from './assets/logo.svg';
 
 import Player from '../../components/ump-player/Player';
-import device from '../../assets/json/device.json';
+import device1 from '../../assets/json/device_1.json';
+import device2 from '../../assets/json/device_2.json';
 
-const Main = ({
-  collapsed,
-  rtl,
-  image,
-  handleToggleSidebar,
-  handleCollapsedChange,
-  handleRtlChange,
-  handleImageChange,
-}) => {
+const Main = ({ handleToggleSidebar }) => {
   const intl = useIntl();
   return (
     <main>
@@ -52,46 +44,13 @@ const Main = ({
         </div>
       </header>
       <div className="player-block">
-        <Player device={device} />
-      </div>
-      <div className="block">
-        <Switch
-          height={16}
-          width={30}
-          checkedIcon={false}
-          uncheckedIcon={false}
-          onChange={handleCollapsedChange}
-          checked={collapsed}
-          onColor="#219de9"
-          offColor="#bbbbbb"
-        />
-        <span> {intl.formatMessage({ id: 'collapsed' })}</span>
-      </div>
-      <div className="block">
-        <Switch
-          height={16}
-          width={30}
-          checkedIcon={false}
-          uncheckedIcon={false}
-          onChange={handleRtlChange}
-          checked={rtl}
-          onColor="#219de9"
-          offColor="#bbbbbb"
-        />
-        <span> {intl.formatMessage({ id: 'rtl' })}</span>
-      </div>
-      <div className="block">
-        <Switch
-          height={16}
-          width={30}
-          checkedIcon={false}
-          uncheckedIcon={false}
-          onChange={handleImageChange}
-          checked={image}
-          onColor="#219de9"
-          offColor="#bbbbbb"
-        />
-        <span> {intl.formatMessage({ id: 'image' })}</span>
+        <div>
+          <Player device={device1} />
+        </div>
+        {/* <div className="player-margin"></div>
+        <div>
+          <Player device={device2} />
+        </div> */}
       </div>
 
       <footer>

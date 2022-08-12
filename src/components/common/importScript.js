@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-const importScript = (resourceUrl) => {
+export const importScript = (resourceUrl) => {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = resourceUrl;
@@ -10,4 +10,4 @@ const importScript = (resourceUrl) => {
     };
   }, [resourceUrl]);
 };
-export default importScript;
+// export default importScript;
