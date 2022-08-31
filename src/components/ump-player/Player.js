@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 // import { Line } from 'react-chartjs-2';
 // import Chart from 'chart.js/auto';
 // import { StreamingPlugin, RealTimeScale } from 'chartjs-plugin-streaming';
@@ -7,154 +7,171 @@ import React, { Component } from 'react';
 // import { removeScript } from '../common/removeScript';
 // import { importScript } from '../common/importScript';
 
-// import crypto from 'crypto-js';
 // import { importScript } from 'components/common/importScripts';
 import '@melchi45/ump-player';
-
 import './styles/Player.scss';
 
-var log4javascript = require('log4javascript');
+import { RestClientConfig } from './sunapi/RestClientConfig';
+import { UmpPlayState } from './Constant/Constant';
 
-// import './styles/Player.scss';
+import { SunapiManager } from './sunapi/SunapiManager';
+import { SunapiException } from './Exception/SunapiException';
+import { AccountService } from './sunapi/AccountService';
+import { AttributeService } from './sunapi/AttributeService';
 
-// Change default options for ALL charts
-// Chart.defaults.set('plugins.streaming', {
-//   duration: 1000,
-// });
+// import { PasswordInput } from '../Controller/Input/PasswordInput';
+// import { UsernameInput } from '../Controller/Input/UsernameInput';
+import LoginDialog from '../Controller/Dialog/LoginDialog';
+import { NavigationBar } from '../Controller/play/NavigationBar';
 
-// Chart.register(StreamingPlugin, RealTimeScale);
+import { Controller } from '../Controller/play/Controller';
 
-// const data = {
-//   datasets: [
-//     {
-//       label: 'Dataset 1',
+import CryptoJS from 'crypto-js';
 
-//       fill: false,
-//       lineTension: 0,
-//       backgroundColor: '#f44336',
-//       borderColor: '#f44336',
-//       // borderJoinStyle: 'miter',
-//       // pointRadius: 0,
-//       showLine: true,
-//       data: [],
-//     },
-//   ],
-// };
+// import log4javascript
+import log4javascript from 'log4javascript';
+window.log4javascript = log4javascript;
+window.CryptoJS = CryptoJS;
 
-// const options = {
-//   // Assume x axis is the realtime scale
-//   pan: {
-//     enabled: true, // Enable panning
-//     mode: 'x', // Allow panning in the x direction
-//     rangeMin: {
-//       x: null, // Min value of the delay option
-//     },
-//     rangeMax: {
-//       x: null, // Max value of the delay option
-//     },
-//   },
-//   zoom: {
-//     enabled: true, // Enable zooming
-//     mode: 'x', // Allow zooming in the x direction
-//     rangeMin: {
-//       x: null, // Min value of the duration option
-//     },
-//     rangeMax: {
-//       x: null, // Max value of the duration option
-//     },
-//   },
-//   scales: {
-//     xAxes: [
-//       {
-//         type: 'realtime',
-//         realtime: {
-//           refresh: 300,
-//           onRefresh: function () {
-//             // updateScales();
-//           },
-//           delay: 300,
-//           // onRefresh: function () {
-//           //   this.data.datasets[0].data.push({
-//           //     x: Date.now(),
-//           //     y: Math.random() * 100,
-//           //   });
-//           // },
-//         },
-//       },
-//     ],
-//     yAxes: [
-//       {
-//         scaleLabel: {
-//           display: true,
-//           fontFamily: 'Arial',
-//           labelString: 'Moment',
-//           fontSize: 10,
-//           fontColor: '#6c757d',
-//         },
-//         ticks: {
-//           max: 100,
-//           min: 0,
-//         },
-//       },
-//     ],
-//   },
-//   tooltips: {
-//     mode: 'nearest',
-//     intersect: false,
-//   },
-//   hover: {
-//     mode: 'nearest',
-//     intersect: false,
-//   },
-// };
+const RESTCLIENT_CONFIG = RestClientConfig;
+const styles = (theme) => ({ hidden: { display: 'none' } });
 
 class Player extends Component {
   constructor(props) {
     super(props);
-
-    // importScript('js/log4javascript/log4javascript.js');
-
-    window.verboseLevel('info', window.logger.rtsp);
-
+    // window.verboseLevel('info', window.logger.rtsp);
+    this.useSunapi = true;
+    // const [control, setControl] = useState(false);
     // state 초기값 설정
+    // this.state = this.props.device;
     this.state = {
-      index: 0,
+      username: '',
+      password: '',
+      isLogin: false,
+      playState: 0,
     };
+
+    this.props.device.serverType = RESTCLIENT_CONFIG.serverType;
+    // this.props.device.ClientIPAddress = RESTCLIENT_CONFIG.digest.ClientIPAddress;
+
+    if (typeof this.props.device.username !== 'undefined') {
+      this.state.username = this.props.device.username;
+    }
+    if (typeof this.props.device.password !== 'undefined') {
+      this.state.password = this.props.device.password;
+    }
+
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  componentDidMount() {
-    // appendScript('js/log4javascript/log4javascript.js');
-    // appendScript('js/crypto-js/crypto-js.js');
-  }
-  componentDidUnmount() {
-    // removeScript('js/log4javascript/log4javascript.js');
-    // removeScript('js/crypto-js/crypto-js.js');
-  }
+  onChangeAccountInfo = (event) => {
+    event.preventDefault();
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
 
-  // updateScales() {
-  //   var datasets = this.data.datasets.concat(Chart.data.datasets);
-  //   this.options.scales.yAxes[0].ticks = this.options.scales.yAxes[0].ticks = {
-  //     suggestedMin: Math.min(
-  //       ...datasets.map(function (dataset) {
-  //         return Math.min(
-  //           ...dataset.data.map(function (value) {
-  //             return value.y;
-  //           })
-  //         );
-  //       })
-  //     ),
-  //     suggestedMax: Math.max(
-  //       ...datasets.map(function (dataset) {
-  //         return Math.max(
-  //           ...dataset.data.map(function (value) {
-  //             return value.y;
-  //           })
-  //         );
-  //       })
-  //     ),
-  //   };
-  //   Chart.update();
-  // }
+  handleLogin = (event) => {
+    try {
+      event.preventDefault();
+
+      if (this.useSunapi) {
+        this.props.device.username = this.state.username;
+        this.props.device.password = this.state.password;
+
+        if (this.ump.isplay) {
+          this.ump.stop();
+        }
+        // initialize sunapi manager
+        this.sunapiMng = new SunapiManager();
+
+        const promises = [
+          this.sunapiMng.init(this.props.device),
+          this.sunapiMng.login(),
+        ];
+        Promise.all(promises)
+          .then((data) => {
+            console.log(data);
+
+            if (data.length == 2) {
+              let initializedData = window.fastJsonStringfy(data[0]);
+              let accountInfo = {};
+
+              console.log(initializedData);
+
+              if (data[1] && data[1].Users) {
+                let temp = data[1].Users;
+                for (var idx = 0; idx < temp.length; idx++) {
+                  if (temp[idx].UserID === this.state.username) {
+                    accountInfo = temp[idx];
+                    break;
+                  }
+                }
+
+                AccountService.setAccount(accountInfo)
+                  .then((temp) => {
+                    this.account = temp;
+                    this.ump.sunapiClient = this.sunapiMng.getSunapiClient();
+
+                    this.setState({ isLogin: true });
+
+                    this.ump.play();
+                  })
+                  .catch((error) => {
+                    console.log('Fail to account service.');
+                  });
+              }
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            if (error instanceof SunapiException) {
+              if (error.status == 401) {
+                // TODO: popup message and uri
+              } else if (error.status == 490) {
+                // TODO: popup message and uri
+              }
+            }
+          });
+      }
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
+  handleLogout = (event) => {
+    try {
+      event.preventDefault();
+
+      if (this.ump.isplay) {
+        this.ump.stop();
+      }
+
+      this.sunapiMng.logout();
+      this.sunapiMng = null;
+      this.account = null;
+
+      this.setState({ isLogin: false });
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
+  handlePlay = () => {
+    console.log('Play button clicked');
+    this.ump.play();
+  };
+
+  handleStop = () => {
+    console.log('Stop button clicked');
+    this.ump.stop();
+  };
+
+  handlePause = () => {
+    console.log('Pause button clicked');
+    this.ump.pause();
+  };
 
   onError = (event) => {
     console.log('onError: ' + window.fastJsonStringfy(event.detail));
@@ -162,9 +179,13 @@ class Player extends Component {
     switch (window.toHex(event.detail.error)) {
       case '0x0000':
         console.log('play started');
+        // this.setState({ playState: true });
         break;
       case '0x0001':
         console.log('play stopped');
+        if (this.ump.isplay) {
+          // this.setState({ playState: false });
+        }
         break;
       case '0x0203':
         console.log('try reconnect');
@@ -188,6 +209,20 @@ class Player extends Component {
 
   onStateChanged = (event) => {
     console.log('onStateChanged: ' + event);
+    this.setState({ playState: event.detail.readyState });
+
+    switch (this.state.playState) {
+      case UmpPlayState.PLAYING:
+        console.log('Playing');
+        // this.setState({ playState: true });
+        break;
+      case UmpPlayState.STOPPED:
+        console.log('Stopped');
+        // this.setState({ playState: false });
+        break;
+      default:
+        break;
+    }
   };
 
   onTimestamp = (event) => {
@@ -230,6 +265,9 @@ class Player extends Component {
   onMetaImage = (event) => {
     console.log('onMetaImage: ' + event);
   };
+  onUsernameChanged = (event) => {
+    console.log('onUsernameChanged: ' + event);
+  };
   onDeviceTypeChanged = (event) => {
     console.log('onDeviceTypeChanged: ' + event);
   };
@@ -269,7 +307,11 @@ class Player extends Component {
   onTimezoneChanged = (event) => {
     console.log('onTimezoneChanged: ' + event);
   };
+  onLogin = (event) => {
+    // AttributeService.setDeviceInfo(element.data);
+  };
   componentDidMount() {
+    // initialize listener
     this.ump.addEventListener('error', this.onError);
     this.ump.addEventListener('meta', this.onMeta);
     this.ump.addEventListener('close', this.onClose);
@@ -287,6 +329,7 @@ class Player extends Component {
     this.ump.addEventListener('metaImage', this.onMetaImage);
 
     // add the onchange method from element property
+    this.ump.addEventListener('changeusername', this.onUsernameChanged);
     this.ump.addEventListener('changedevicetype', this.onDeviceTypeChanged);
     this.ump.addEventListener(
       'changeprofilenumber',
@@ -306,6 +349,44 @@ class Player extends Component {
     this.ump.addEventListener('changebestshot', this.onBestshot);
     this.ump.addEventListener('stream', this.onStream);
     this.ump.addEventListener('changetimezone', this.onTimezoneChanged);
+
+    // initialize sunapi manager
+    // this.sunapiMng = new SunapiManager();
+
+    // if (
+    //   typeof this.props.device === 'undefined' ||
+    //   this.props.device === null ||
+    //   this.props.device === ''
+    // ) {
+    // }
+
+    // this.props.device.ClientIPAddress = '127.0.0.1';
+
+    // const promise = [];
+    // this.sunapiMng
+    //   .init(this.props.device)
+    //   .then((init) => {
+    //     if (init.Initialized) {
+    //       this.sunapiMng.login().then((accountInfo) => {
+    //         AccountService.setAccount(accountInfo);
+    //         this.ump.sunapiClient = this.sunapiMng.getSunapiClient();
+    //       });
+    //     } else {
+    //       // TODO: redirect to login page
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     if (error instanceof SunapiException) {
+    //       // var strMessage =
+    //       //   '<div><h4>Error Code: ' +
+    //       //   toHex(error.errorCode) +
+    //       //   '<br>Error: ' +
+    //       //   error.message +
+    //       //   '</h4></div>';
+    //     }
+    //   });
+    // // this.ump.play();
   }
 
   componentWillUnmount() {
@@ -330,6 +411,7 @@ class Player extends Component {
       'changeprofilenumber',
       this.onProfileNumberChanged
     );
+    this.ump.removeEventListener('changeusername', this.onUsernameChanged);
     this.ump.removeEventListener('changeprofile', this.onProfileNameChanged);
     this.ump.removeEventListener('changechannel', this.onChannelNumberChanged);
     this.ump.removeEventListener('changehostname', this.onHostnameChanged);
@@ -353,11 +435,50 @@ class Player extends Component {
   }
 
   render() {
-    // this.props.device.id = 'player-index-' + this.state.index;
-    const attrs = this.props.device;
+    // if (this.useSunapi) {
+    //   this.props.device.password = undefined;
+    // }
+
+    // if (
+    //   typeof this.props.device.password === 'undefined' ||
+    //   this.props.device.password == ''
+    // ) {
+    //   this.props.device.autoplay = false;
+    // }
+
+    console.log('state', this.state.playState);
 
     return (
-      <ump-player ref={(elem) => (this.ump = elem)} {...attrs}></ump-player>
+      <div>
+        <div id={'container-' + this.props.device.id} className="container">
+          {/* <div className="topNavigationBar"></div> */}
+          <NavigationBar
+            account={this.account}
+            isLogin={this.state.isLogin}
+            handleLogout={this.handleLogout}
+          />
+          <Controller
+            playState={this.state.playState}
+            handlePlay={this.handlePlay}
+            handleStop={this.handleStop}
+            handlePause={this.handlePause}
+          />
+
+          <LoginDialog
+            open={!this.state.isLogin}
+            parentId={'container-' + this.props.device.id}
+            username={this.state.username || ''}
+            password={this.state.password || ''}
+            onChangeAccountInfo={this.onChangeAccountInfo}
+            handleLogin={this.handleLogin}
+          />
+
+          <ump-player
+            ref={(elem) => (this.ump = elem)}
+            {...this.props.device}
+          ></ump-player>
+        </div>
+      </div>
     );
   }
 }

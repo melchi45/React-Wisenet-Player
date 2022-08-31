@@ -2,7 +2,8 @@ export default {
   ar: {
     title: 'رياكت پرو سايد بار',
     sidebarTitle: 'پرو سايد بار',
-    description: 'شريط جانبي مع قوائم منسدلة وعدد غير محدود من القوائم الفرعية المتداخلة',
+    description:
+      'شريط جانبي مع قوائم منسدلة وعدد غير محدود من القوائم الفرعية المتداخلة',
     dashboard: 'لوحة القيادة',
     components: 'مكونات',
     dropdown: 'اسقاط',
@@ -15,6 +16,8 @@ export default {
     withPrefix: 'مع البادئة',
     withSuffix: 'مع اللاحقة',
     viewSource: 'عرض الكود',
+    device: 'Device',
+    search: 'Search',
   },
   en: {
     title: 'React Pro Sidebar',
@@ -33,5 +36,7 @@ export default {
     withPrefix: 'With Prefix',
     withSuffix: 'With Suffix',
     viewSource: 'View Source',
+    device: 'Device',
+    search: 'Search',
   },
 };

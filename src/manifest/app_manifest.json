@@ -1,0 +1,83 @@
+{
+  "manifest_version": 2,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApTQJRfASye/qQ8/Qx0y6xQ7mdlKuH71vnPClrHY7Qp0MHq/YXh2heh9qXivoMVLDzRxzf/q7pGqlWmxvSCukRrz3ha4CY+7e0NzTXPnw3WoxKQc7tI+LHATJJFH/E9OWQqwYq18nJ5K+qceHneuVaBkm0pEVFBpyJAEd0I8Ip+YF5n4S0r7cz4Lt9ia8xtFdrIMAs+WIJB1FYGn1Dihhn54UpEAebcNtx0rxp8EuU2C20kuZZ8EjCWnnAL2zMeItlB4I4tap9M4LpDvwOCNVOJADWcIq4FTooJmgigj4D7tBnE6Rk92QZUMOzNajR3EoIGC6OPyvf8KBfFZ7JlRZHQIDAQAB",
+  "key_comment": "openssl rsa -in key.pem -pubout -outform DER | openssl base64 -A kffkaaidbnfhedampdhagmioedmfjdop",
+  "name": "Chrome Extension App with React & Webpack",
+  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "version": "0.1",
+  "minimum_chrome_version": "33",
+  "app": {
+    "background": {
+      "scripts": ["background.bundle.js"],
+      "persistent": false
+    }
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "WiseNET",
+    "default_icon": "icon-34.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "apps.html"
+  },
+  "icons": {
+    "16": "icon-16.png",
+    "36": "icon-128.png",
+    "48": "icon-128.png",
+    "128": "icon-128.png",
+    "512": "icon-512.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["contentScript.bundle.js"],
+      "css": ["content.styles.css"]
+    }
+  ],
+  "devtools_page": "devtools.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
+      "matches": []
+    }
+  ],
+  "sockets": {
+    "udp": {
+      "send": ["*"],
+      "bind": ["*"],
+      "multicastMembership": [""]
+    }
+  },
+  "permissions": [
+    "background",
+    "webRequest",
+    "webNavigation",
+    "tabs",
+    "webview",
+    "notifications",
+    "bookmarks",
+    "storage",
+    "unlimitedStorage",
+    "clipboardRead",
+    "system.network",
+    "system.memory",
+    "system.cpu",
+    "serial",
+    "*://localhost/*",
+    "*://*/*",
+    "https://cdnjs.cloudflare.com/*/",
+    "https://*.google.com",
+    "https://*.googleapis.com/",
+    "<all_urls>"
+  ],
+  "optional_permissions": ["unlimitedStorage"],
+  "host_permissions": [
+    "http://www.blogger.com/",
+    "https://*.google.com/",
+    "https://cdnjs.cloudflare.com/*/"
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self' 'unsafe-eval'; connect-src * data: blob: filesystem:; media-src * data: blob: filesystem:; img-src 'self' https://img.icons8.com/ blob: filesystem: data: chrome-extension-resource:; script-src 'self' https://cdnjs.cloudflare.com; script-src-elem 'self' https://cdnjs.cloudflare.com; object-src 'self' blob: filesystem: data: chrome-extension-resource: 'wasm-unsafe-eval';"
+  }
+}

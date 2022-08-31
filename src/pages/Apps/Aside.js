@@ -13,6 +13,7 @@ import Switch from 'react-switch';
 import {
   FaTachometerAlt,
   FaGem,
+  FaSearch,
   FaList,
   FaGithub,
   FaRegLaughWink,
@@ -59,6 +60,10 @@ const Aside = ({
 
       <SidebarContent>
         <Menu iconShape="circle">
+          <MenuItem icon={<FaSearch />}>
+            {' '}
+            {intl.formatMessage({ id: 'search' })}
+          </MenuItem>
           <MenuItem
             icon={<FaTachometerAlt />}
             suffix={

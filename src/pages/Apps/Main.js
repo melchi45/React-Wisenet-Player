@@ -4,10 +4,12 @@ import { FaHeart, FaBars } from 'react-icons/fa';
 import reactLogo from './assets/logo.svg';
 
 import Player from '../../components/ump-player/Player';
+
 import device1 from '../../assets/json/device_1.json';
 import device2 from '../../assets/json/device_2.json';
+import device3 from '../../assets/json/device_3.json';
 
-const Main = ({ handleToggleSidebar }) => {
+const Main = ({ rtl, handleToggleSidebar }) => {
   const intl = useIntl();
   return (
     <main>
@@ -44,9 +46,7 @@ const Main = ({ handleToggleSidebar }) => {
         </div>
       </header>
       <div className="player-block">
-        <div>
-          <Player device={device1} />
-        </div>
+        <Player id="player" device={device2} control={true} />
         {/* <div className="player-margin"></div>
         <div>
           <Player device={device2} />

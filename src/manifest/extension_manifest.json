@@ -2,14 +2,17 @@
   "manifest_version": 3,
   "name": "Chrome Extension with React & Webpack",
   "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "version": "0.1",
+  "minimum_chrome_version": "33",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
   "action": {
     "default_popup": "popup.html",
+    "default_title": "WiseNET",
     "default_icon": "icon-34.png"
   },
   "chrome_url_overrides": {
-    "newtab": "newtab.html"
+    "newtab": "apps.html"
   },
   "icons": {
     "128": "icon-128.png"
@@ -28,26 +31,35 @@
       "matches": []
     }
   ],
-  "content_security_policy": {
-    "default-src": "self",
-    "script-src": "self allow-scripts; https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js",
-    "object-src": "self",
-    "script-src-elem": "self allow-scripts; https://cdnjs.cloudflare.com",
-    "sandbox": "sandbox allow-scripts; https://apis.google.com https://apis.google.com/js/client.js https://ajax.googleapis.com https://designshack.net/favicon.ico https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js https://aui-cdn.atlassian.com https://netdna.bootstrapcdn.com https://tarruda.github.com  https://cdnjs.cloudflare.com https://ydn-src-2.storage.googleapis.com  https://www.google.com/"
-  },
   "permissions": [
-    "storage",
-    "clipboardRead",
+    "tabs",
     "notifications",
-    "webview",
-    "system.network",
+    "bookmarks",
+    "storage",
+    "unlimitedStorage",
+    "clipboardRead",
     "system.memory",
     "system.cpu",
-    "serial",
     "*://localhost/*",
     "*://*/*",
     "https://cdnjs.cloudflare.com/*/",
     "https://www.google.com",
     "<all_urls>"
-  ]
+  ],
+  "optional_permissions": ["unlimitedStorage"],
+  "host_permissions": [
+    "http://www.blogger.com/",
+    "https://*.google.com/",
+    "https://cdnjs.cloudflare.com/*/"
+  ],
+  "content_security_policy": {
+    "default-src": "'self'",
+    "connect-src": "* data: blob: filesystem:",
+    "media-src": "* data: blob: filesystem:",
+    "img-src": "'self'",
+    "script-src": "'self'",
+    "object-src": "'self'",
+    "script-src-elem": "'self' 'wasm-unsafe-eval'",
+    "style-src": "'self' fonts.googleapis.com;"
+  }
 }

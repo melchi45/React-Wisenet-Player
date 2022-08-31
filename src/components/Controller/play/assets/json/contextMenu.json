@@ -1,0 +1,15 @@
+[
+  {
+    "content": "Item 1",
+    "events": {
+      "click": "(e) => console.log(e, 'Copy Button Click')"
+    }
+  },
+  { "content": "Item 2" },
+  { "content": "Item 3" },
+  { "content": "Item 4" },
+  {
+    "content": "Item 5",
+    "divider": "top"
+  }
+]

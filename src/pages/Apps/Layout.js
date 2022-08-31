@@ -36,7 +36,11 @@ function Layout({ setLocale }) {
         handleRtlChange={handleRtlChange}
         handleImageChange={handleImageChange}
       />
-      <Main toggled={toggled} handleToggleSidebar={handleToggleSidebar} />
+      <Main
+        rtl={rtl}
+        toggled={toggled}
+        handleToggleSidebar={handleToggleSidebar}
+      />
     </div>
   );
 }

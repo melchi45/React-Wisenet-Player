@@ -108,7 +108,7 @@ body {
 
     ump-player {
       width: auto;
-      height: auto;
+      height: calc(80vw * (1080.0 / 1920.0));
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -127,11 +127,15 @@ body {
   }
 
   .player-block {
-    display: flex;
-    margin-bottom: 24px;
+    // display: flex;
+    // margin-bottom: 24px;
     font-size: 14px;
-    max-height: calc(100% / 2);
+    /* max-height: calc(100% / 2); */
     color: #545454;
+    border: 1px solid #aaa;
+    width: auto;
+    height: calc(80vw * (1080.0 / 1920.0));
+    padding: 10px;
     > span {
       margin-left: 10px;
     }

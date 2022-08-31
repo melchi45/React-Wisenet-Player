@@ -3,10 +3,9 @@
   "hostname": "192.168.212.144",
   "port": 80,
   "username": "admin",
-  "password": "5tkatjd!",
   "profile": "H.264",
   "device": "camera",
-  "autoplay": true,
+  "grunt": "true",
   "statistics": true,
   "https": false
 }

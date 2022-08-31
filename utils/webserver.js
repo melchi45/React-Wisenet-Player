@@ -1,4 +1,5 @@
 // Do this as the first thing so that any code reading it knows the right env.
+process.env.BUILD_ENV = 'development';
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
 process.env.ASSET_PATH = '/';
@@ -37,7 +38,7 @@ var server = new WebpackDevServer(
     host: 'localhost',
     port: env.PORT,
     static: {
-      directory: path.join(__dirname, '../build'),
+      directory: path.join(__dirname, '../build/extension'),
     },
     devMiddleware: {
       publicPath: `http://localhost:${env.PORT}/`,
