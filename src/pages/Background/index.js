@@ -4,6 +4,7 @@ console.log('This is the background page.');
 console.log('Put the background scripts here.');
 
 const useWindow = true;
+var targetWindow = null;
 
 var apps = {
   onLaunched: function (launchData) {
@@ -15,22 +16,82 @@ var apps = {
       var width = 800;
       var height = 600;
 
-      chrome.app.window.create('apps.html', {
-        id: 'UDPBroadcastApp',
-        width: width,
-        height: height,
-        left: Math.round((screenWidth - width) / 2),
-        top: Math.round((screenHeight - height) / 2),
-        minWidth: 800,
-        minHeight: 600,
-      });
+      chrome.app.window.create(
+        'apps.html',
+        {
+          id: 'UDPBroadcastApp',
+          width: width,
+          height: height,
+          left: Math.round((screenWidth - width) / 2),
+          top: Math.round((screenHeight - height) / 2),
+          minWidth: 800,
+          minHeight: 600,
+          resizable: true,
+          frame: { type: 'chrome' },
+        },
+        function (createdWindow) {
+          // Check to see if I got a non-undefined appWindow.
+          if (createdWindow !== null) {
+            targetWindow = createdWindow;
+            // socket.setTargetWindow(createdWindow);
+            Socket.lookupTargetWindow();
+            // chrome.app.window.postMessage(appId, {"message": "start"});
+            createdWindow.contentWindow.addEventListener(
+              'DOMContentLoaded',
+              function () {
+                console.log('app window complete!');
+                // get init button element from windows.html
+                const searchButton =
+                  createdWindow.contentWindow.document.getElementById('search');
+                // var disconnectButton =
+                //   createdWindow.contentWindow.document.getElementById(
+                //     'disconnect'
+                //   );
+                try {
+                  searchButton.addEventListener('click', function () {
+                    console.log('init button clicked');
+                    //     // socket.cleanup_socket();
+                    Socket.cleanup_create();
+                    //     initButton.disabled = true;
+                    //     disconnectButton.disabled = false;
+                    //     // disconnectButton.addEventListener('click', onDisconnect);
+                    //     // try{
+                    //     //   console.log("Trying to post message");
+                    //     //   initButton.contentWindow.postMessage("Message from Chrome APP!", "*");
+                    //     // }catch(error){
+                    //     //   console.log("postMessage error: " + error);
+                    //     // }
+                  });
+                } catch (err) {
+                  console.log('button button error: ' + err);
+                }
+              }
+            );
+          }
+          // // Do stuff here, and no need for get()
+          // // createdWindow.innerBounds.height = 50;
+          // // createdWindow.innerBounds.width = 200;
+          // console.log("all: " + chrome.app.window.getAll())
+          // var targetWindow = chrome.app.window.get(appId);
+          // targetWindow.innerBounds.height = 50;
+          // targetWindow.innerBounds.width = 200;
+          // // targetWindow.width = 10;
+          // // targetWindow.postMessage(message, "*");
+          // socket.setTargetWindow(targetWindow);
+        }
+      );
+    } else {
+      // socket.cleanup_socket();
+      Socket.cleanup_create();
     }
-    if (chrome.app.runtime.lastError)
-      console.error(chrome.app.runtime.lastError);
-    Socket.cleanup_create();
 
     if (chrome.app.runtime.lastError)
       console.error(chrome.app.runtime.lastError);
+
+    // Socket.cleanup_create();
+
+    // if (chrome.app.runtime.lastError)
+    //   console.error(chrome.app.runtime.lastError);
   },
   onRestarted: function () {
     // Do some simple clean-up tasks.

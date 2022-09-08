@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuu+cXy8E4qy9i+uh6WtSJPCo7qwA9P3BzEa5mnsREZHtDogZfyZf4pMTARnXoVxMg0S42Dhk4iO5nDectCVCAOiAAyKI6lPOpnQu99psBvz+9tnLOaC325lLT6XbHjzWycbUVyCEN3Ku3ctsYbVOFRvgzD5Uc35gKPhBvwY0aDDwHnuSUD2WfjPxbhBKF3NNiv/NMZwElkzBtZC3Xe2756T4n9810nAp8cSundKZLJmY4KSeZacsake/FJYNHVoa4F8bOrseOq6NCjJtja5eQyEF3geR1xaGQzOtWeB2WY4e1sxn3UdS2HKyX+hzJklCSBUskGkZR2zgDxO/gdzt9QIDAQAB",
   "name": "Chrome Extension with React & Webpack",
   "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
   "version": "0.1",

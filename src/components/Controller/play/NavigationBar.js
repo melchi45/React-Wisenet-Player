@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
 import { withStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import { MdAccountBox } from 'react-icons/md';
 import { IconContext, icons } from 'react-icons';
+
+// Context Menu
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 import styles from './styles/NavigationBar.scss';
 import './styles/Icons.scss';
@@ -17,15 +22,65 @@ export class NavigationBar extends Component {
     this.log = log4javascript.getLogger('navigationbar_ctrl');
   }
 
+  handleMenuItemClick(item, event, popupState) {
+    console.log(item, event);
+    popupState.close();
+    item.task(event);
+  }
+
   render() {
-    const { classes, account, isLogin, handleLogout } = this.props;
+    const { classes, account, isLogin, menuData } = this.props;
 
     if (isLogin && account) {
       console.log('login');
       return (
-        <div>
-          <ContextMenuTrigger id="user_account_contextmenu">
-            <div className="topNavigationBar">
+        <div className="topNavigationBar">
+          <PopupState variant="popover" popupId="account-popup-menu">
+            {(popupState) => (
+              <React.Fragment>
+                <IconContext.Provider
+                  value={{
+                    color: 'blue',
+                    size: '16px',
+                    className: 'global-class-name',
+                  }}
+                >
+                  <MdAccountBox
+                    className={isLogin ? 'grey icon' : 'grey icon link'}
+                  />
+                  <div
+                    id="account_name"
+                    className="accountName"
+                    variant="contained"
+                    {...bindTrigger(popupState)}
+                  >
+                    {isLogin ? account.getUserId() : 'Login'}
+                  </div>
+                </IconContext.Provider>
+                <Menu {...bindMenu(popupState)} onClose={popupState.close}>
+                  {menuData.map((item) => (
+                    <MenuItem
+                      key={item.title}
+                      onClick={(event) =>
+                        this.handleMenuItemClick(item, event, popupState)
+                      }
+                    >
+                      {item.title}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
+        </div>
+      );
+    }
+
+    return (
+      <div className="topNavigationBar">
+        <PopupState variant="popover" popupId="account-popup-menu">
+          {(popupState) => (
+            <React.Fragment>
               <IconContext.Provider
                 value={{
                   color: 'blue',
@@ -36,38 +91,35 @@ export class NavigationBar extends Component {
                 <MdAccountBox
                   className={isLogin ? 'grey icon' : 'grey icon link'}
                 />
-                <div className="accountName">
+                <div
+                  id="account_login"
+                  className="accountName"
+                  variant="contained"
+                  {...bindTrigger(popupState)}
+                >
                   {isLogin ? account.getUserId() : 'Login'}
                 </div>
               </IconContext.Provider>
-              <ContextMenu
-                id="user_account_contextmenu"
-                className={'contextMenu'}
+              <Menu
+                {...bindMenu(popupState)}
+                MenuListProps={{
+                  'aria-labelledby': 'account_login',
+                }}
               >
-                <MenuItem className={'contextMenu-item'}>
-                  <div onClick={handleLogout}>Logout</div>
-                </MenuItem>
-              </ContextMenu>
-            </div>
-          </ContextMenuTrigger>
-        </div>
-      );
-    }
-
-    return (
-      <div className="topNavigationBar">
-        <IconContext.Provider
-          value={{
-            color: 'blue',
-            size: '16px',
-            className: 'global-class-name',
-          }}
-        >
-          <MdAccountBox className={isLogin ? 'grey icon' : 'grey icon link'} />
-          <div className="accountName">
-            {isLogin ? account.getUserId() : 'Login'}
-          </div>
-        </IconContext.Provider>
+                {menuData.map((item) => (
+                  <MenuItem
+                    key={item.title}
+                    onClick={(event) =>
+                      this.handleMenuItemClick(item, event, popupState)
+                    }
+                  >
+                    {item.title}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </React.Fragment>
+          )}
+        </PopupState>
       </div>
     );
   }

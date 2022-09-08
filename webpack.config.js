@@ -108,6 +108,11 @@ var extension_options = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: /\.svg$/,
+        issuer: /\.[jt]sx?$/,
+        use: ['@svgr/webpack'],
+      },
     ],
   },
   resolve: {
@@ -321,6 +326,11 @@ var app_options = {
           },
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.svg$/,
+        issuer: /\.[jt]sx?$/,
+        use: ['@svgr/webpack'],
       },
     ],
   },

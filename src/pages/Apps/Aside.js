@@ -60,7 +60,7 @@ const Aside = ({
 
       <SidebarContent>
         <Menu iconShape="circle">
-          <MenuItem icon={<FaSearch />}>
+          <MenuItem id="search" icon={<FaSearch />}>
             {' '}
             {intl.formatMessage({ id: 'search' })}
           </MenuItem>

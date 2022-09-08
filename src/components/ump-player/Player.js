@@ -8,6 +8,10 @@ import React, { Component, useState } from 'react';
 // import { importScript } from '../common/importScript';
 
 // import { importScript } from 'components/common/importScripts';
+// import log4javascript
+import log4javascript from 'log4javascript';
+import CryptoJS from 'crypto-js';
+
 import '@melchi45/ump-player';
 import './styles/Player.scss';
 
@@ -21,15 +25,11 @@ import { AttributeService } from './sunapi/AttributeService';
 
 // import { PasswordInput } from '../Controller/Input/PasswordInput';
 // import { UsernameInput } from '../Controller/Input/UsernameInput';
-import LoginDialog from '../Controller/Dialog/LoginDialog';
+import { LoginDialog } from '../Controller/Dialog/LoginDialog';
 import { NavigationBar } from '../Controller/play/NavigationBar';
 
 import { Controller } from '../Controller/play/Controller';
 
-import CryptoJS from 'crypto-js';
-
-// import log4javascript
-import log4javascript from 'log4javascript';
 window.log4javascript = log4javascript;
 window.CryptoJS = CryptoJS;
 
@@ -39,7 +39,7 @@ const styles = (theme) => ({ hidden: { display: 'none' } });
 class Player extends Component {
   constructor(props) {
     super(props);
-    // window.verboseLevel('info', window.logger.rtsp);
+    window.verboseLevel('info', window.logger.rtsp);
     this.useSunapi = true;
     // const [control, setControl] = useState(false);
     // state 초기값 설정
@@ -49,6 +49,7 @@ class Player extends Component {
       password: '',
       isLogin: false,
       playState: 0,
+      popupLogin: false,
     };
 
     this.props.device.serverType = RESTCLIENT_CONFIG.serverType;
@@ -63,6 +64,19 @@ class Player extends Component {
 
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+
+    this.handleProfile = this.handleProfile.bind(this);
+    this.handleAccount = this.handleAccount.bind(this);
+    this.handleLoginCancled = this.handleLoginCancled.bind(this);
+
+    this.account_context_menu = [
+      { key: 'profile', title: 'Profile', task: this.handleProfile },
+      { key: 'myaccount', title: 'My account', task: this.handleAccount },
+      { key: 'logout', title: 'Logout', task: this.handleLogout },
+    ];
+    this.login_context_menu = [
+      { key: 'login', title: 'Log In', task: this.handleLoginCancled },
+    ];
   }
 
   onChangeAccountInfo = (event) => {
@@ -70,6 +84,16 @@ class Player extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  handleLoginCancled = (event) => {
+    try {
+      event.preventDefault();
+
+      this.setState({ popupLogin: true });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   handleLogin = (event) => {
@@ -115,6 +139,7 @@ class Player extends Component {
                     this.ump.sunapiClient = this.sunapiMng.getSunapiClient();
 
                     this.setState({ isLogin: true });
+                    this.setState({ popupLogin: false });
 
                     this.ump.play();
                   })
@@ -158,9 +183,21 @@ class Player extends Component {
     }
   };
 
+  handleProfile = (event) => {
+    console.log(event);
+  };
+
+  handleAccount = (event) => {
+    console.log(event);
+  };
+
   handlePlay = () => {
-    console.log('Play button clicked');
-    this.ump.play();
+    try {
+      console.log('Play button clicked');
+      this.ump.play();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   handleStop = () => {
@@ -171,6 +208,60 @@ class Player extends Component {
   handlePause = () => {
     console.log('Pause button clicked');
     this.ump.pause();
+  };
+
+  handleDegree0 = () => {
+    if (this.ump.umpWrapperElement) {
+      this.ump.umpWrapperElement.removeAttribute('style');
+      this.ump.umpWrapperElement.removeAttribute('class');
+      this.ump.umpWrapperElement.classList.add('degree_0');
+      this.ump.umpWrapperElement.classList.add('center_0_or_180');
+    }
+  };
+
+  handleDegree90 = () => {
+    if (this.ump.umpWrapperElement) {
+      this.ump.umpWrapperElement.removeAttribute('style');
+      this.ump.umpWrapperElement.removeAttribute('class');
+      this.ump.umpWrapperElement.classList.add('degree_90');
+      this.ump.umpWrapperElement.classList.add('center_90_or_270');
+    }
+  };
+
+  handleDegree180 = () => {
+    this.ump.umpWrapperElement.removeAttribute('style');
+    this.ump.umpWrapperElement.removeAttribute('class');
+    this.ump.umpWrapperElement.classList.add('degree_180');
+    this.ump.umpWrapperElement.classList.add('center_0_or_180');
+  };
+
+  handleDegree270 = () => {
+    if (this.ump.umpWrapperElement) {
+      this.ump.umpWrapperElement.removeAttribute('style');
+      this.ump.umpWrapperElement.removeAttribute('class');
+      this.ump.umpWrapperElement.classList.add('degree_270');
+      this.ump.umpWrapperElement.classList.add('center_90_or_270');
+    }
+  };
+
+  handleMirror = () => {
+    if (this.ump.umpWrapperElement) {
+      this.ump.umpWrapperElement.removeAttribute('style');
+      this.ump.umpWrapperElement.removeAttribute('class');
+      this.ump.umpWrapperElement.classList.add(
+        'degree_vertical_flip_upside_down_mirror'
+      );
+    }
+  };
+
+  handleFlip = () => {
+    if (this.ump.umpWrapperElement) {
+      this.ump.umpWrapperElement.removeAttribute('style');
+      this.ump.umpWrapperElement.removeAttribute('class');
+      this.ump.umpWrapperElement.classList.add(
+        'degree_horizontal_flip_left_right_mirror'
+      );
+    }
   };
 
   onError = (event) => {
@@ -205,6 +296,8 @@ class Player extends Component {
 
   onResize = (event) => {
     console.log('onResize: ' + event);
+    this.ump.video.style.width = '100%';
+    this.ump.video.style.height = '100%';
   };
 
   onStateChanged = (event) => {
@@ -446,37 +539,47 @@ class Player extends Component {
     //   this.props.device.autoplay = false;
     // }
 
-    console.log('state', this.state.playState);
+    // console.log('state', this.state.playState);
 
     return (
       <div>
         <div id={'container-' + this.props.device.id} className="container">
-          {/* <div className="topNavigationBar"></div> */}
           <NavigationBar
             account={this.account}
             isLogin={this.state.isLogin}
-            handleLogout={this.handleLogout}
+            menuData={
+              this.state.isLogin
+                ? this.account_context_menu
+                : this.login_context_menu
+            }
           />
           <Controller
             playState={this.state.playState}
             handlePlay={this.handlePlay}
             handleStop={this.handleStop}
             handlePause={this.handlePause}
+            handleDegree0={this.handleDegree0}
+            handleDegree90={this.handleDegree90}
+            handleDegree180={this.handleDegree180}
+            handleDegree270={this.handleDegree270}
+            handleMirror={this.handleMirror}
+            handleFlip={this.handleFlip}
           />
 
           <LoginDialog
-            open={!this.state.isLogin}
+            open={this.state.popupLogin}
+            // open={false}
             parentId={'container-' + this.props.device.id}
             username={this.state.username || ''}
             password={this.state.password || ''}
             onChangeAccountInfo={this.onChangeAccountInfo}
             handleLogin={this.handleLogin}
           />
-
           <ump-player
+            class="ump-player"
             ref={(elem) => (this.ump = elem)}
             {...this.props.device}
-          ></ump-player>
+          />
         </div>
       </div>
     );

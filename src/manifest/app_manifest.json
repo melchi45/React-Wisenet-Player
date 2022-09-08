@@ -75,9 +75,10 @@
   "host_permissions": [
     "http://www.blogger.com/",
     "https://*.google.com/",
-    "https://cdnjs.cloudflare.com/*/"
+    "https://cdnjs.cloudflare.com/*/",
+    "https://img.shields.io/*/"
   ],
   "content_security_policy": {
-    "extension_pages": "default-src 'self' 'unsafe-eval'; connect-src * data: blob: filesystem:; media-src * data: blob: filesystem:; img-src 'self' https://img.icons8.com/ blob: filesystem: data: chrome-extension-resource:; script-src 'self' https://cdnjs.cloudflare.com; script-src-elem 'self' https://cdnjs.cloudflare.com; object-src 'self' blob: filesystem: data: chrome-extension-resource: 'wasm-unsafe-eval';"
+    "extension_pages": "default-src 'self' 'unsafe-eval'; connect-src * data: blob: filesystem:; media-src * data: blob: filesystem:; img-src 'self' https://img.icons8.com/ https://img.shields.io blob: filesystem: data: chrome-extension-resource:; script-src 'self' https://cdnjs.cloudflare.com; script-src-elem 'self' https://cdnjs.cloudflare.com; object-src 'self' blob: filesystem: data: chrome-extension-resource: 'wasm-unsafe-eval';"
   }
 }

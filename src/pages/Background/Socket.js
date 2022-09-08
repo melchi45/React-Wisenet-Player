@@ -19,17 +19,29 @@ Socket.LISTENING_ADDR = '0.0.0.0';
 Socket.SENDING_ADDR = '127.0.0.1';
 Socket.targetWindow = null;
 Socket.appId = 'UDPBroadcastApp';
+let id = 0;
+
+Socket.lookupTargetWindow = function () {
+  console.log('all: ' + chrome.app.window.getAll());
+  this.targetWindow = chrome.app.window.get(Socket.appId);
+  console.log('target window:' + Socket.targetWindow);
+  // targetWindow.postMessage({data: {"message": "hello"}}, "*");
+};
 
 Socket.displayResult = function (data) {
   try {
     if (Socket.targetWindow != null) {
       // createdWindow.contentWindow.document.getElementById('init');
-      var resultTextarea =
-        Socket.targetWindow.contentWindow.document.getElementById('result');
+      // var resultTextarea =
+      //   Socket.targetWindow.contentWindow.document.getElementById('result');
 
       var deviceName = data.chDeviceName;
       var macAddress = data.chMac;
       var ipAddress = data.chIP;
+      var Gateway = data.chGateway;
+      var SubnetMask = data.chSubnetMask;
+      var SupportSunapi = data.isSupportSunapi;
+      var MulticastPort = data.nMulticastPort;
       var port =
         typeof data.httpType !== 'undefined'
           ? data.httpType === 0
@@ -41,13 +53,19 @@ Socket.displayResult = function (data) {
       var httpType = data.httpType;
       var svnp = data.nDevicePort;
 
-      var str = resultTextarea.value;
+      // var str = resultTextarea.value;
+      id += 1;
 
       var result = {
+        id: id,
         DeviceName: deviceName,
         IPAddress: ipAddress,
         MACAddress: macAddress,
         Port: port,
+        Gateway: Gateway,
+        SubnetMask: SubnetMask,
+        SupportSunapi: SupportSunapi,
+        MulticastPort: MulticastPort,
         URL: url,
         Model: model,
         Protocol:
@@ -58,17 +76,17 @@ Socket.displayResult = function (data) {
             : new URL(data.url).protocol.split(':')[0],
       };
 
-      str += JSON.stringify(result) + '\r\n';
+      // str += JSON.stringify(result) + '\r\n';
 
-      // str += "onerror: " + fastJsonStringfy(error.message) + "\r\n";
-      resultTextarea.value = str;
+      // // str += "onerror: " + fastJsonStringfy(error.message) + "\r\n";
+      // resultTextarea.value = str;
 
-      var dataTable =
-        Socket.targetWindow.contentWindow.document.getElementById('datatable');
+      // var dataTable =
+      //   Socket.targetWindow.contentWindow.document.getElementById('datatable');
 
       const event = new CustomEvent('discover', {
         detail: {
-          data: result,
+          device: result,
         },
       });
       // Dispatch the event.
@@ -557,7 +575,8 @@ Socket.onReceive = function (info) {
 
     chrome.runtime.sendMessage(Socket.extensionId, result);
     chrome.runtime.sendMessage(Socket.extensionId2, result);
-    chrome.runtime.sendMessage(Socket.extensionId3, result);
+    Socket.displayResult(result);
+    // chrome.runtime.sendMessage(Socket.extensionId3, result);
     // chrome.tabs.query({}, (tabs) =>
     //   tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id, result))
     // );

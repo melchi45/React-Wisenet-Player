@@ -2,32 +2,42 @@
   position: absolute;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  top: 0px;
+  /* bottom: 0px; */
+  /* left: 0px; */
   border-bottom: 1px solid #aaa;
   background: #000;
   width: 100%;
   font-size: 10px;
-  z-index: 2;
+  /* padding: 5px 5px 5px 5px; */
+  // opacity: 0.5;
+  z-index: 4;
   height: 20px;
-  opacity: 0.0;
-}
+  opacity: var(--opacity);
+  align-items: center;
 
-.topNavigationBar:hover {
-  opacity: 0.9;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-  -ms-transition: all 500ms ease-in-out;
-  -o-transition: all 500ms ease-in-out;
-  transition: all 500ms ease-in-out;
+  &:after {
+  //   opacity: 0.9;
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+  }
 }
 
 .accountName {
   color: #fff;
+  --context_menu_opacity: 0.0;
+
+  &:hover {
+    text-decoration: underline;
+    --context_menu_opacity: 1.0;
+  }
 }
 
 // https://www.cssscript.com/cool-custom-context-menu/
 .contextMenu {
+  opacity: var(--context_menu_opacity);
   --menu-border: rgba(255, 255, 255, 0.08);
   --menu-bg: linear-gradient(
     45deg,

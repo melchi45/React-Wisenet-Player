@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
-// import { PlayButton } from './PlayButton';
-// import { StopButton } from './StopButton';
-
 import {
   BsFillPlayFill,
   BsFillStopFill,
@@ -13,16 +10,17 @@ import { IconContext, icons } from 'react-icons';
 import styles from './styles/ControlBox.scss';
 import './styles/Icons.scss';
 
+import SvgDegree0 from './icons/SvgDegree0';
+import SvgDegree90 from './icons/SvgDegree90';
+import SvgDegree180 from './icons/SvgDegree180';
+import SvgDegree270 from './icons/SvgDegree270';
+import SvgVertivalFlip from './icons/SvgVerticalFlip';
+import SvgHorizontalzFlip from './icons/SvgHorizontalFlip';
+import SvgSeperate from './icons/SvgSeperate';
+
 // import log4javascript
 import log4javascript from 'log4javascript';
 window.log4javascript = log4javascript;
-
-// const styles = (theme) => ({
-//   controller: {
-//     display: 'flex',
-//     position: 'absolute',
-//   },
-// });
 
 export class Controller extends Component {
   constructor(props) {
@@ -31,45 +29,72 @@ export class Controller extends Component {
   }
 
   render() {
-    const { classes, playState, handlePlay, handleStop, handlePause } =
-      this.props;
+    const {
+      classes,
+      playState,
+      handlePlay,
+      handleStop,
+      handlePause,
+      handleDegree0,
+      handleDegree90,
+      handleDegree180,
+      handleDegree270,
+      handleMirror,
+      handleFlip,
+    } = this.props;
 
     return (
       <div className={'controlbox'}>
+        <div className={'rotate_control'}>
+          <IconContext.Provider
+            value={{
+              color: 'blue',
+              size: '48px',
+              className: 'global-class-name',
+            }}
+          >
+            <div>
+              <SvgDegree0
+                className={'grey icon padding link'}
+                onClick={handleDegree0}
+              />
+            </div>
+            <div>
+              <SvgDegree90
+                className={'grey icon padding link'}
+                onClick={handleDegree90}
+              />
+            </div>
+            <div>
+              <SvgDegree180
+                className={'grey icon padding link'}
+                onClick={handleDegree180}
+              />
+            </div>
+            <div>
+              <SvgDegree270
+                className={'grey icon padding link'}
+                onClick={handleDegree270}
+              />
+            </div>
+            <div>
+              <SvgSeperate className={'grey icon padding'}></SvgSeperate>
+            </div>
+            <div>
+              <SvgVertivalFlip
+                className={'grey icon padding link'}
+                onClick={handleMirror}
+              ></SvgVertivalFlip>
+            </div>
+            <div>
+              <SvgHorizontalzFlip
+                className={'grey icon padding link'}
+                onClick={handleFlip}
+              ></SvgHorizontalzFlip>
+            </div>
+          </IconContext.Provider>
+        </div>
         <div className={'play_control'}>
-          {/* <i
-            role="button"
-            className={
-              playState == 0 || playState == 2
-                ? 'icon_zoom_2x inverted grey play icon link'
-                : 'icon_zoom_2x inverted grey play icon disabled'
-            }
-            tabIndex={0}
-            onClick={handlePlay}
-            {...this.props}
-          ></i>
-          <i
-            role="button"
-            className={
-              playState == 1
-                ? 'icon_zoom_2x inverted grey stop icon link'
-                : 'icon_zoom_2x inverted grey stop icon disabled'
-            }
-            tabIndex={1}
-            onClick={handleStop}
-            {...this.props}
-          ></i>
-          <i
-            role="button"
-            className={
-              playState == 1
-                ? 'icon_zoom_2x inverted grey play icon link'
-                : 'icon_zoom_2x inverted grey play icon disabled'
-            }
-            tabIndex={1}
-            onClick={handlePause}
-            {...this.props}
-          ></i> */}
           <IconContext.Provider
             value={{
               color: 'blue',

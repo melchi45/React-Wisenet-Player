@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { PasswordInput } from '../Input/PasswordInput';
 import { UsernameInput } from '../Input/UsernameInput';
 
-export default class LoginDialog extends Component {
+export class LoginDialog extends Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +19,7 @@ export default class LoginDialog extends Component {
     };
 
     this.handleClose = this.handleClose.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setOpen = (state) => {
@@ -44,7 +45,7 @@ export default class LoginDialog extends Component {
       handleLogin,
     } = this.props;
 
-    console.log('dialog state:', open);
+    // console.log('dialog state:', open);
 
     return (
       <div>
