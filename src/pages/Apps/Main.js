@@ -9,6 +9,7 @@ import Demo from '../../components/Controller/Table/Demo';
 import device1 from '../../assets/json/device_1.json';
 import device2 from '../../assets/json/device_2.json';
 import device3 from '../../assets/json/device_3.json';
+import device4 from '../../assets/json/device_4.json';
 
 const Main = ({ rtl, handleToggleSidebar }) => {
   const intl = useIntl();
@@ -73,7 +74,7 @@ const Main = ({ rtl, handleToggleSidebar }) => {
         </div>
       </header>
       <div className="player-block">
-        <Player id="player" device={device2} control={true} />
+        <Player id="player" device={device4} control={true} />
         {/* <div className="player-margin"></div>
         <div>
           <Player device={device2} />
