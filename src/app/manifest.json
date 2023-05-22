@@ -2,6 +2,7 @@
   "name": "Chrome UDP Socket Sample",
   "description": "Chrome packaged app sample for receiving UDP message",
   "version": "0.1",
+  "manifest_version": 3,
   "app": {
     "background": {
       "scripts": ["background.js"]
@@ -14,13 +15,8 @@
       "bind": ["*"],
       "multicastMembership": [""]
     }
-
   },
-  "permissions": [
-    "system.network",
-    "system.memory",
-    "system.cpu"
-  ],
+  "permissions": ["system.network", "system.memory", "system.cpu"],
   "icons": {
     "128": "icon-128.png"
   }

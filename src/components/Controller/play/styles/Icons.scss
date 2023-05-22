@@ -1,0 +1,32 @@
+/* Grey */
+.grey.icon {
+  color: #fff !important;
+}
+.padding.icon {
+  padding: 5px;
+}
+.link.icon,
+.link.icons {
+  cursor: pointer;
+  opacity: 0.8;
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+}
+.link.icon:hover,
+.link.icons:hover {
+  opacity: 1 !important;
+}
+
+.disabled.icon {
+  opacity: 0.25 !important;
+}
+
+
+.icon_zoom_1x {
+  zoom: 1;
+}
+
+.icon_zoom_2x {
+  margin: 2px;
+  zoom: 2;
+}

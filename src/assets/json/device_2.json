@@ -1,0 +1,11 @@
+{
+  "id": "ump-player2",
+  "hostname": "192.168.212.144",
+  "port": 80,
+  "username": "admin",
+  "profile": "H.264",
+  "device": "camera",
+  "grunt": "true",
+  "statistics": true,
+  "https": false
+}

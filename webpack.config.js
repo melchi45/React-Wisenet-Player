@@ -33,11 +33,19 @@ if (fileSystem.existsSync(secretsPath)) {
   alias['secrets'] = secretsPath;
 }
 
+const isApplication = process.env.BUILD_ENV === 'app';
 const isDevelopment = process.env.NODE_ENV !== 'production';
+
+if (isApplication === 'app') {
+  console.log('Application Extension build');
+} else {
+  console.log('Boilerplate Extension build');
+}
 
 var options = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
+    app: path.join(__dirname, 'src', 'pages', 'App', 'index.jsx'),
     newtab: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.jsx'),
     options: path.join(__dirname, 'src', 'pages', 'Options', 'index.jsx'),
     popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.jsx'),
@@ -141,7 +149,16 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/manifest.json',
+          from: 'src/app/background.js',
+          to: path.join(__dirname, 'build', 'backgrount.js'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: isApplication ? 'src/app/manifest.json' : 'src/manifest.json',
           to: path.join(__dirname, 'build'),
           force: true,
           transform: function (content, path) {
@@ -183,6 +200,12 @@ var options = {
           force: true,
         },
       ],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'App', 'index.html'),
+      filename: 'app.html',
+      chunks: ['app'],
+      cache: false,
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'pages', 'Newtab', 'index.html'),

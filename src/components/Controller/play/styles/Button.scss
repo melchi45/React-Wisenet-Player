@@ -1,0 +1,123 @@
+/*https://codepen.io/stevenfabre/pen/DvBei/#*/
+.play {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #aaa;
+  /*margin: 100px auto 50px auto;*/
+  position: absolute;
+  z-index: 1;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+}
+
+.play:before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: -35px;
+  bottom: -25px;
+  right: -15px;
+  border-radius: 50%;
+  border: 5px solid #aaa;
+  z-index: 2;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+}
+
+.play:after {
+  content: '';
+  opacity: 0;
+  transition: opacity 0.6s;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+}
+
+.play:hover:before, .play:focus:before {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+}
+
+.play.active {
+  border-color: transparent;
+}
+
+.play.active:after {
+  content: '';
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  background: #aaa;
+  position: absolute;
+  right: 0px;
+  top: -10px;
+  border-left: 8px solid #aaa;
+  box-shadow: inset 5px 0px 0px 0px #f9f9f9;
+}
+
+.stop {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #aaa;
+  border-bottom: 10px solid #aaa;
+  border-left: 20px solid #aaa;
+  border-right: 0px solid #aaa;
+  /*margin: 100px auto 50px auto;*/
+  position: absolute;
+  z-index: 1;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+}
+
+.stop:before {
+  content: '';
+  position: absolute;
+  top: -25px;
+  left: -35px;
+  bottom: -25px;
+  right: -15px;
+  border-radius: 50%;
+  border: 5px solid #aaa;
+  z-index: 2;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+}
+
+.stop:after {
+  content: '';
+  opacity: 0;
+  transition: opacity 0.6s;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+}
+
+.stop:hover:before, .stop:focus:before {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+}
+
+.stop.active {
+  border-color: transparent;
+}
+
+.stop.active:after {
+  content: '';
+  opacity: 1;
+  width: 20px;
+  height: 20px;
+  background: #aaa;
+  position: absolute;
+  right: 0px;
+  top: -10px;
+  border-left: 8px solid #aaa;
+  box-shadow: inset 5px 0px 0px 0px #f9f9f9;
+}
