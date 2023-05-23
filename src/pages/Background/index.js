@@ -17,7 +17,7 @@ var apps = {
       var height = 600;
 
       chrome.app.window.create(
-        'apps.html',
+        'app.html',
         {
           id: 'UDPBroadcastApp',
           width: width,

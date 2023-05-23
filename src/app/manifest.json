@@ -5,7 +5,8 @@
   "manifest_version": 3,
   "app": {
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["background.bundle.js"],
+      "persistent": false
     }
   },
   "minimum_chrome_version": "46",

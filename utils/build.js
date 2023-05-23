@@ -2,7 +2,6 @@
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 process.env.ASSET_PATH = '/';
-process.env.BUILD_ENV = 'app';
 
 var webpack = require('webpack'),
   path = require('path'),

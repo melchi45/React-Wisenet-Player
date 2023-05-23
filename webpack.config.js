@@ -33,10 +33,10 @@ if (fileSystem.existsSync(secretsPath)) {
   alias['secrets'] = secretsPath;
 }
 
-const isApplication = process.env.BUILD_ENV === 'app';
+const isApplication = env.BUILD_TPYE === 'app';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-if (isApplication === 'app') {
+if (isApplication === true) {
   console.log('Application Extension build');
 } else {
   console.log('Boilerplate Extension build');
