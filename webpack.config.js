@@ -149,15 +149,6 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/app/background.js',
-          to: path.join(__dirname, 'build', 'backgrount.js'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
           from: isApplication ? 'src/app/manifest.json' : 'src/manifest.json',
           to: path.join(__dirname, 'build'),
           force: true,
