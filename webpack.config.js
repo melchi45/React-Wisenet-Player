@@ -149,8 +149,27 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: isApplication ? 'src/app/manifest.json' : 'src/manifest.json',
+          from: 'src/manifest.json',
           to: path.join(__dirname, 'build'),
+          force: true,
+          transform: function (content, path) {
+            // generates the manifest file using the package.json informations
+            return Buffer.from(
+              JSON.stringify({
+                description: process.env.npm_package_description,
+                version: process.env.npm_package_version,
+                ...JSON.parse(content.toString()),
+              })
+            );
+          },
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/app/manifest.json',
+          to: path.join(__dirname, 'build', 'app'),
           force: true,
           transform: function (content, path) {
             // generates the manifest file using the package.json informations
@@ -177,8 +196,10 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/assets/img/icon-128.png',
-          to: path.join(__dirname, 'build'),
+          from: 'src/assets/img/*.png',
+          to({ context, absoluteFilename }) {
+            return '[name][ext]';
+          },
           force: true,
         },
       ],
@@ -188,6 +209,26 @@ var options = {
         {
           from: 'src/assets/img/icon-34.png',
           to: path.join(__dirname, 'build'),
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/assets/json/*.json',
+          to({ context, absoluteFilename }) {
+            return '[name][ext]';
+          },
+          force: true,
+        },
+      ],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'node_modules/@melchi45/ump-player/dist/media/ump/Worker',
+          to: path.resolve(__dirname, 'build', 'media', 'ump', 'Worker'),
           force: true,
         },
       ],

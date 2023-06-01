@@ -1,0 +1,121 @@
+{
+  "devices": [
+    {
+      "id": "ump-player1",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "1",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player2",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "2",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player3",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "3",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player4",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "4",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player5",
+      "hostname": "192.168.212.36",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "1",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player6",
+      "hostname": "192.168.212.36",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "2",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player7",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "1",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player8",
+      "hostname": "192.168.212.36",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "1",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    },
+    {
+      "id": "ump-player9",
+      "hostname": "192.168.212.34",
+      "port": 80,
+      "username": "admin",
+      "password": "5tkatjd!",
+      "profile": "H.264",
+      "device": "camera",
+      "channel": "3",
+      "autoplay": true,
+      "statistics": true,
+      "https": false
+    }
+  ]
+}

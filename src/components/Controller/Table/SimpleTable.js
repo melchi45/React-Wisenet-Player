@@ -37,20 +37,18 @@ const styles = (theme) => ({
 //   createData('Gingerbread', 356, 16.0, 49, 3.9),
 // ];
 
-export class SimpleTable extends Component {
+class SimpleTable extends Component {
   constructor(props) {
     super(props);
+    this.devices = props.devices;
   }
   // function SimpleTable(props) {
   //   const { classes, devices } = props;
 
   render() {
-    const { classes } = this.props;
-    const { devices } = this.devices;
-
     return (
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
+      <Paper>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>Model</TableCell>
@@ -65,7 +63,7 @@ export class SimpleTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {devices.map((row) => (
+            {this.devices.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.DeviceName}
@@ -97,3 +95,5 @@ export class SimpleTable extends Component {
 // // export default withStyles(styles)(SimpleTable);
 
 // export default styled(styles)(SimpleTable);
+
+export default SimpleTable;

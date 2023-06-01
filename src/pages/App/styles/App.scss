@@ -11,6 +11,7 @@ $icon-size: 35px;
 // @import '~react-pro-sidebar/dist/scss/styles.scss';
 body {
   margin: 0;
+  padding: 0;
   height: 100vh;
   color: #353535;
   font-family: 'Roboto', sans-serif;
@@ -77,6 +78,26 @@ body {
     }
   }
 
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    // padding: 20px;
+    // font-size: 30px;
+    text-align: center;
+  }
+
+  .grid-flow {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
   main {
     padding: 24px;
     flex-grow: 1;
@@ -84,7 +105,7 @@ body {
     flex-direction: column;
     overflow-y: auto;
     header {
-      margin-bottom: 40px;
+    //   margin-bottom: 40px;
       border-bottom: 1px solid #efefef;
       h1 {
         display: flex;
@@ -120,13 +141,13 @@ body {
   .player-block {
     // display: flex;
     // margin-bottom: 24px;
-    font-size: 14px;
+    font-size: 7px;
     /* max-height: calc(100% / 2); */
     color: #545454;
     border: 1px solid #aaa;
     width: auto;
     height: auto;
-    padding: 10px;
+    // padding: 10px;
     > span {
       margin-left: 10px;
     }

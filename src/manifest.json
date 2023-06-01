@@ -9,7 +9,7 @@
     "default_icon": "icon-34.png"
   },
   "chrome_url_overrides": {
-    "newtab": "newtab.html"
+    "newtab": "app.html"
   },
   "icons": {
     "128": "icon-128.png"
@@ -24,8 +24,14 @@
   "devtools_page": "devtools.html",
   "web_accessible_resources": [
     {
-      "resources": ["content.styles.css", "icon-128.png", "icon-34.png"],
+      "resources": [
+        "content.styles.css",
+        "icon-128.png",
+        "icon-34.png",
+        "devices.json"
+      ],
       "matches": []
     }
-  ]
+  ],
+  "permissions": ["storage", "file://*/"]
 }

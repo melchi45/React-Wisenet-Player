@@ -1,88 +1,101 @@
-.statistics {
-  background: rgba(28,28,28,0.5);
-  border: 5px;
-  border-radius: 4px;
-  color: #fff;
-  right: 10px;
-  bottom: 60px;
-  position: absolute;
-  z-index: 1000;
-  min-width: 55em;
-  min-height: 25em;
-  font-size: 7px;
-  font-family: 'Roboto', sans-serif;
+// .statistics {
+//   background: rgba(28,28,28,0.5);
+//   border: 5px;
+//   border-radius: 4px;
+//   color: #fff;
+//   right: 10px;
+//   bottom: 60px;
+//   position: absolute;
+//   z-index: 1000;
+//   min-width: 75em;
+//   min-height: 35em;
+//   font-size: 7px;
+//   font-family: 'Roboto', sans-serif;
+//   scale: 60%;
 
-  // @media all and (max-width: 720px), (min-width: 360px) {
-  // }
+//   // @media all and (max-width: 720px), (min-width: 360px) {
+//   // }
 
-  // @media all and (max-width: 1920px), (min-width: 720px) {
-  // }
+//   // @media all and (max-width: 1920px), (min-width: 720px) {
+//   // }
 
-  // @media all and (max-width: 2559px), (min-width: 1920px) {
-  //   /* specific CSS for this screen size */
-  // }
+//   // @media all and (max-width: 2559px), (min-width: 1920px) {
+//   //   /* specific CSS for this screen size */
+//   // }
  
-  // @media all and (max-width: 3839px), (min-width: 2560px) {
-  //   /* specific CSS for this screen size */
-  // }
+//   // @media all and (max-width: 3839px), (min-width: 2560px) {
+//   //   /* specific CSS for this screen size */
+//   // }
 
-  @media screen and (max-width: 320px) {
-    background-color: lightgreen;
-    zoom: calc((100% / 100) * 100);
+//   @media screen and (max-width: 320px) {
+//     background-color: lightgreen;
+//     zoom: calc((100% / 100) * 100);
+//   }
+
+//   // @media screen and (max-width: 720px), (min-width: 360px) {
+//   //   background-color: lightgreen;
+//   //   zoom: calc((100% / 100) * 100);
+//   // }
+
+//   // @media screen and (max-width: 320px) {
+//   //   zoom: 0.4;
+//   //   /* transform: scale(0.5); */
+//   //   bottom: 2em;
+//   //   right: 2em;
+//   // }
+
+//   // @media screen and (max-width: 1280px) and (max-height: 320px) {
+//   //   zoom: 0.4;
+//   //   /* transform: scale(0.5); */
+//   //   bottom: 2em;
+//   //   right: 2em;
+//   // }
+// }
+.statistics {
+    background: rgba(28, 28, 28, 0.5);
+    border: 5px;
+    border-radius: 4px;
+    color: #fff;
+    right: 15px;
+    bottom: 15px;
+    position: absolute;
+    z-index: 1000;
+    min-width: 55em;
+    min-height: 30em;
+
+  div {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+    font-size: 10px;
+    font-family: arial;
+    text-align: right;
+    border-radius: 4px;
+    color: #FFF;
+    left: 1px;
+    position: absolute;
+    z-index: 65;
+    min-width: 8em;
+    min-height: 1em;
   }
 
-  // @media screen and (max-width: 720px), (min-width: 360px) {
-  //   background-color: lightgreen;
-  //   zoom: calc((100% / 100) * 100);
-  // }
-
-  // @media screen and (max-width: 320px) {
-  //   zoom: 0.4;
-  //   /* transform: scale(0.5); */
-  //   bottom: 2em;
-  //   right: 2em;
-  // }
-
-  // @media screen and (max-width: 1280px) and (max-height: 320px) {
-  //   zoom: 0.4;
-  //   /* transform: scale(0.5); */
-  //   bottom: 2em;
-  //   right: 2em;
-  // }
-}
-
-.statistics div {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-  font-size: 10px;
-  font-family: arial;
-  text-align: right;
-  border-radius: 4px;
-  color: #FFF;
-  left: 1px;
-  position: absolute;
-  z-index: 65;
-  min-width: 8em;
-  min-height: 1em;
-}
-
-.statistics span {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-  font-size: 10px;
-  font-family: arial;
-  text-align: left;
-  border-radius: 4px;
-  color: #FFF;
-  left: 110px;
-  position: absolute;
-  z-index: 65;
-  min-width: 25em;
-  min-height: 1em;
+  span {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    background: transparent;
+    font-size: 10px;
+    font-family: arial;
+    text-align: left;
+    border-radius: 4px;
+    color: #FFF;
+    left: 100px;
+    position: absolute;
+    z-index: 65;
+    min-width: 25em;
+    min-height: 1em;
+  }
 }
 
 .network_state_wrapper{
@@ -246,7 +259,8 @@
 
 .ump-player {
   width: auto;
-  height: calc(80vw * (1080.0 / 1920.0));
+//   height: calc(80vw * (1080.0 / 1920.0));
+  height: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;

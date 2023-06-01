@@ -7,6 +7,9 @@
     "background": {
       "scripts": ["background.bundle.js"],
       "persistent": false
+    },
+    "sandbox": {
+      "pages": ["app.html"]
     }
   },
   "minimum_chrome_version": "46",
@@ -17,8 +20,32 @@
       "multicastMembership": [""]
     }
   },
-  "permissions": ["system.network", "system.memory", "system.cpu"],
+  "permissions": [
+    "system.network",
+    "system.memory",
+    "system.cpu",
+    "contextMenus",
+    "storage",
+    "fullscreen",
+    "notifications",
+    "serial",
+    "*://localhost/*",
+    "*://*/*",
+    "https://cdnjs.cloudflare.com/*/",
+    "https://www.google.com",
+    "<all_urls>"
+  ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": ["http://my.localhost/*"],
+    "accepts_tls_channel_id": false
+  },
   "icons": {
-    "128": "icon-128.png"
-  }
+    "16": "icon-16.png",
+    "36": "icon-128.png",
+    "48": "icon-128.png",
+    "128": "icon-128.png",
+    "512": "icon-512.png"
+  },
+  "content_security_policy": "default-src 'self' 'unsafe-eval'; connect-src * data: blob: filesystem:; media-src * data: blob: filesystem:; img-src 'self' https://img.icons8.com/ blob: filesystem: data: chrome-extension-resource:; script-src 'self' https://cdnjs.cloudflare.com; script-src-elem 'self' https://cdnjs.cloudflare.com; object-src 'self' blob: filesystem: data: chrome-extension-resource: 'wasm-unsafe-eval';"
 }

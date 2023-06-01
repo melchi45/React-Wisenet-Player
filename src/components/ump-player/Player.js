@@ -542,7 +542,7 @@ class Player extends Component {
     // console.log('state', this.state.playState);
 
     return (
-      <div>
+      <div >
         <div id={'container-' + this.props.device.id} className="container">
           <NavigationBar
             account={this.account}

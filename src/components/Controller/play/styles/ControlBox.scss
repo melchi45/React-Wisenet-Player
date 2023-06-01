@@ -36,19 +36,35 @@
 }
 
 .rotate_control {
+//   position: absolute;
+//   display: flex;
+//   flex-direction: row;
+//   border: 2px solid #fff;
+//   width: 460px;
+//   top: 30px;
+//   right: 20px;
+//   font-size: 20px;
+//   padding: 5px 5px 5px 5px;
+//   background-color: #505050;
+//   align-items: center;
+//   opacity: var(--opacity);
+//   z-index: 4;
+
   position: absolute;
   display: flex;
   flex-direction: row;
   border: 2px solid #fff;
-  width: 460px;
-  top: 30px;
-  right: 20px;
-  font-size: 20px;
-  padding: 5px 5px 5px 5px;
+  width: auto;
+  top: 20px;
+  right: -80px;
+  /* font-size: 20px; */
+  /* padding: 5px 5px 5px 5px; */
   background-color: #505050;
   align-items: center;
   opacity: var(--opacity);
   z-index: 4;
+  /* object-fit: scale-down; */
+  scale: 50%;  
 
   &:after {
     opacity: var(--opacity);
