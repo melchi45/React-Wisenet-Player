@@ -1,10 +1,11 @@
 {
   "id": "ump-player1",
-  "hostname": "192.168.38.232",
+  "hostname": "192.168.212.34",
   "port": 80,
   "username": "admin",
   "profile": "H.264",
   "device": "camera",
+  "password": "5tkatjd!",
   "autoplay": true,
   "statistics": true,
   "https": false

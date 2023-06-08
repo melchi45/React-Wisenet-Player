@@ -145,8 +145,9 @@ body {
     /* max-height: calc(100% / 2); */
     color: #545454;
     border: 1px solid #aaa;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    background: rgba(28, 28, 28, 0.5);
     // padding: 10px;
     > span {
       margin-left: 10px;

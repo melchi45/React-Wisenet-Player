@@ -62,6 +62,12 @@
     z-index: 1000;
     min-width: 55em;
     min-height: 30em;
+    zoom:0.5;
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    transform: scale(0.8);
 
   div {
     border: 0px;
@@ -98,6 +104,15 @@
   }
 }
 
+.statistics:hover {
+  zoom: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
 .network_state_wrapper{
   bottom: 10px;
   right: 1px;
@@ -117,8 +132,8 @@
 }
 
 .container{
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   position: relative;
   --opacity: 0.0;
 
@@ -258,11 +273,15 @@
 }
 
 .ump-player {
-  width: auto;
+  width: 100%;
 //   height: calc(80vw * (1080.0 / 1920.0));
-  height: auto;
-  display: block;
+  height: 100%;
+  display: none;
   margin-left: auto;
   margin-right: auto;
   position: relative;
+}
+
+.ump-player.active {
+  display: block;
 }

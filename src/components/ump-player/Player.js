@@ -307,11 +307,11 @@ class Player extends Component {
     switch (this.state.playState) {
       case UmpPlayState.PLAYING:
         console.log('Playing');
-        // this.setState({ playState: true });
+        this.setState({ playState: true });
         break;
       case UmpPlayState.STOPPED:
         console.log('Stopped');
-        // this.setState({ playState: false });
+        this.setState({ playState: false });
         break;
       default:
         break;
@@ -540,47 +540,49 @@ class Player extends Component {
     // }
 
     // console.log('state', this.state.playState);
-
+    let umpPlayerClass = ['ump-player'];
+    if (this.state.playState) {
+      umpPlayerClass.push('active');
+    }
     return (
-      <div >
-        <div id={'container-' + this.props.device.id} className="container">
-          <NavigationBar
-            account={this.account}
-            isLogin={this.state.isLogin}
-            menuData={
-              this.state.isLogin
-                ? this.account_context_menu
-                : this.login_context_menu
-            }
-          />
-          <Controller
-            playState={this.state.playState}
-            handlePlay={this.handlePlay}
-            handleStop={this.handleStop}
-            handlePause={this.handlePause}
-            handleDegree0={this.handleDegree0}
-            handleDegree90={this.handleDegree90}
-            handleDegree180={this.handleDegree180}
-            handleDegree270={this.handleDegree270}
-            handleMirror={this.handleMirror}
-            handleFlip={this.handleFlip}
-          />
+      <div id={'container-' + this.props.device.id} className="container">
+        <NavigationBar
+          account={this.account}
+          isLogin={this.state.isLogin}
+          menuData={
+            this.state.isLogin
+              ? this.account_context_menu
+              : this.login_context_menu
+          }
+        />
+        <Controller
+          playState={this.state.playState}
+          handlePlay={this.handlePlay}
+          handleStop={this.handleStop}
+          handlePause={this.handlePause}
+          handleDegree0={this.handleDegree0}
+          handleDegree90={this.handleDegree90}
+          handleDegree180={this.handleDegree180}
+          handleDegree270={this.handleDegree270}
+          handleMirror={this.handleMirror}
+          handleFlip={this.handleFlip}
+        />
 
-          <LoginDialog
-            open={this.state.popupLogin}
-            // open={false}
-            parentId={'container-' + this.props.device.id}
-            username={this.state.username || ''}
-            password={this.state.password || ''}
-            onChangeAccountInfo={this.onChangeAccountInfo}
-            handleLogin={this.handleLogin}
-          />
-          <ump-player
-            class="ump-player"
-            ref={(elem) => (this.ump = elem)}
-            {...this.props.device}
-          />
-        </div>
+        <LoginDialog
+          open={this.state.popupLogin}
+          // open={false}
+          parentId={'container-' + this.props.device.id}
+          username={this.state.username || ''}
+          password={this.state.password || ''}
+          onChangeAccountInfo={this.onChangeAccountInfo}
+          handleLogin={this.handleLogin}
+        />
+        <ump-player
+          //   class="ump-player"
+          className={umpPlayerClass.join(' ')}
+          ref={(elem) => (this.ump = elem)}
+          {...this.props.device}
+        />
       </div>
     );
   }

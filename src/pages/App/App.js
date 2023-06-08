@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import Layout from './Layout';
+import { Layout } from './Layout';
 import messages from './messages';
 import './styles/App.scss';
 
