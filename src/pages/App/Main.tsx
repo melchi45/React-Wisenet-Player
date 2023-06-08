@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
 import Player from '../../components/ump-player/Player';
-import SimpleTable from '../../components/Controller/Table/SimpleTable';
+// import SimpleTable from '../../components/Controller/Table/Table';
 
 import Devices from './Devices';
 
@@ -11,45 +11,51 @@ import device2 from '../../assets/json/device_2.json';
 import device3 from '../../assets/json/device_3.json';
 import device4 from '../../assets/json/device_4.json';
 
-function createData(
-  id,
-  DeviceName,
-  Model,
-  IPAddress,
-  MACAddress,
-  Port,
-  Gateway,
-  SubnetMask,
-  SupportSunapi,
-  URL
-) {
-  return {
-    id,
-    DeviceName,
-    Model,
-    IPAddress,
-    MACAddress,
-    Port,
-    Gateway,
-    SubnetMask,
-    SupportSunapi,
-    URL,
-  };
-}
+// function createData(
+//   id,
+//   DeviceName,
+//   Model,
+//   IPAddress,
+//   MACAddress,
+//   Port,
+//   Gateway,
+//   SubnetMask,
+//   SupportSunapi,
+//   URL
+// ) {
+//   return {
+//     id,
+//     DeviceName,
+//     Model,
+//     IPAddress,
+//     MACAddress,
+//     Port,
+//     Gateway,
+//     SubnetMask,
+//     SupportSunapi,
+//     URL,
+//   };
+// }
 
 export const Main: React.FC = () => {
   const intl = useIntl();
   const data = Devices();
 
   //   const [devices, setDevices] = useState([]);
-  //   React.useEffect(() => {
-  //     window.addEventListener('discover', discoveryHandler, false);
+    React.useEffect(() => {
+        chrome.runtime.onMessage.addListener( // this is the message listener
+            function(request, sender, sendResponse) {
+                
+            }
+        );
 
-  //     // cleanup this component
-  //     return () => {
-  //       window.removeEventListener('discover', discoveryHandler);
-  //     };
-  //   }, []);
+        //   window.addEventListener('discover', discoveryHandler, false);
+
+    //   // cleanup this component
+    //   return () => {
+    //     window.removeEventListener('discover', discoveryHandler);
+    //   };
+    }, []);
 
   //   const discoveryHandler = (event) => {
   //     try {
@@ -66,20 +72,20 @@ export const Main: React.FC = () => {
   //       console.log('Error on postMessage back to APP' + error);
   //     }
   //   };
-  const cameras = [
-    createData(
-      1,
-      'PNM-C32083RVQ',
-      0,
-      '192.168.212.34',
-      '',
-      80,
-      '192.168.212.1',
-      '255.255.255.0',
-      true,
-      'http://192.168.212.34/index.html'
-    ),
-  ];
+//   const cameras = [
+//     createData(
+//       1,
+//       'PNM-C32083RVQ',
+//       0,
+//       '192.168.212.34',
+//       '',
+//       80,
+//       '192.168.212.1',
+//       '255.255.255.0',
+//       true,
+//       'http://192.168.212.34/index.html'
+//     ),
+//   ];
 
   return (
     <div>
@@ -93,7 +99,7 @@ export const Main: React.FC = () => {
             </div>
         ))}
         </div>
-        <SimpleTable devices={cameras} />
+        {/* <SimpleTable devices={cameras} /> */}
     </div>
   );
 };
