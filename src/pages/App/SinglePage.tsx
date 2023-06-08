@@ -9,39 +9,39 @@ import device3 from '../../assets/json/device_3.json';
 import device4 from '../../assets/json/device_4.json';
 
 export const SinglePage: React.FC = () => {
-  const intl = useIntl();
+    const intl = useIntl();
 
-  //   const [devices, setDevices] = useState([]);
-  //   React.useEffect(() => {
-  //     window.addEventListener('discover', discoveryHandler, false);
+    //   const [devices, setDevices] = useState([]);
+    //   React.useEffect(() => {
+    //     window.addEventListener('discover', discoveryHandler, false);
 
-  //     // cleanup this component
-  //     return () => {
-  //       window.removeEventListener('discover', discoveryHandler);
-  //     };
-  //   }, []);
+    //     // cleanup this component
+    //     return () => {
+    //       window.removeEventListener('discover', discoveryHandler);
+    //     };
+    //   }, []);
 
-  //   const discoveryHandler = (event) => {
-  //     try {
-  //       if (
-  //         event.type === 'discover' &&
-  //         event.detail !== null &&
-  //         event.detail.device !== null
-  //       ) {
-  //         // device data comming from event listener for device discovery
-  //         const newDevice = event.detail.device;
-  //         setDevices((oldDevices) => [...oldDevices, newDevice]);
-  //       }
-  //     } catch (error) {
-  //       console.log('Error on postMessage back to APP' + error);
-  //     }
-  //   };
+    //   const discoveryHandler = (event) => {
+    //     try {
+    //       if (
+    //         event.type === 'discover' &&
+    //         event.detail !== null &&
+    //         event.detail.device !== null
+    //       ) {
+    //         // device data comming from event listener for device discovery
+    //         const newDevice = event.detail.device;
+    //         setDevices((oldDevices) => [...oldDevices, newDevice]);
+    //       }
+    //     } catch (error) {
+    //       console.log('Error on postMessage back to APP' + error);
+    //     }
+    //   };
 
-  return (
-    <main>
-      <div className="player-block">
-        <Player id="player1" device={device1} control={true} />
-      </div>
-    </main>
-  );
+    return (
+        <main>
+            <div className="player-block">
+                <Player id="player1" device={device1} control={true} />
+            </div>
+        </main>
+    );
 };

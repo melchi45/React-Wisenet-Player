@@ -24,7 +24,6 @@ import { RestClientConfig } from '../../components/ump-player/sunapi/RestClientC
 type Theme = 'light' | 'dark';
 
 function createData(
-    id,
     DeviceName,
     Model,
     IPAddress,
@@ -36,7 +35,6 @@ function createData(
     URL
 ) {
     return {
-        id,
         DeviceName,
         Model,
         IPAddress,
@@ -124,6 +122,21 @@ export const Playground: React.FC = () => {
     const [theme, setTheme] = React.useState<Theme>('light');
     const [devices, setDevice] = useState([]);
 
+    const fetchDevices = (device: Object) => {
+        let temp = devices.filter(element => element.MACAddress === device.MACAddress);
+        setDevice((prev) => [...prev, device]);
+    };
+
+    // const fetchDevices = (device: Object) => {
+    //     let uniqueVal = [];
+    //     devices.forEach(el => {
+    //         if (!uniqueVal.includes(el)) {
+    //             uniqueVal.push(el);
+    //         }
+    //     })
+    //     return uniqueVal;
+    // }
+
     React.useEffect(() => {
         if (typeof chrome !== 'undefined') {
             if (chrome.runtime && chrome.runtime.onMessageExternal) {
@@ -133,22 +146,30 @@ export const Playground: React.FC = () => {
                     chrome.runtime.connect(discoveryAppIds);
                     if (chrome.runtime.onMessageExternal) {
                         chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-                            console.log("sender" + JSON.stringify(sender));
-                            console.log("message" + JSON.stringify(message));
-                            console.log("message" + devices.length);
-                            let device = createData(
-                                devices.length + 1,
-                                message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName,
-                                message.modelType,
-                                message.chIP,
-                                message.chMac,
-                                message.nPort,
-                                message.chGateway,
-                                message.chSubnetMask,
-                                message.isSupportSunapi == 1 ? true : false,
-                                message.DDNSURL
-                            );
-                            setDevice((prevDevices) => [...prevDevices, device]);
+                            if (message.launch == true) {
+
+                            } else {
+                                console.log("sender" + JSON.stringify(sender));
+                                console.log("message" + JSON.stringify(message));
+                                console.log("message" + devices.length);
+                                let device = createData(
+                                    message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName,
+                                    message.modelType,
+                                    message.chIP,
+                                    message.chMac,
+                                    message.nPort,
+                                    message.chGateway,
+                                    message.chSubnetMask,
+                                    message.isSupportSunapi == 1 ? true : false,
+                                    message.DDNSURL
+                                );
+                                fetchDevices(device);
+                                // var devices = devices.filter(function (elem, pos) {
+                                //     return devices.indexOf(elem) == pos;
+                                // });
+                                // setDevice((prevDevices) => [...prevDevices, device]);
+                                // devices = Object.keys(Object.fromEntries(devices.map(v => [v, 0])));
+                            }
                         });
                     }
 
@@ -361,12 +382,7 @@ export const Playground: React.FC = () => {
                         </Typography>
                         <PackageBadges />
                     </div>
-                    <Routes>
-                        <Route path="/" element={<SinglePage />} />
-                        <Route path="multiplayer" element={<Main />} />
-                    </Routes>
-                    <DeviceTable devices={devices} />
-                    <div style={{ padding: '0 8px' }}>
+                    <div style={{ display: 'flex', padding: '0 8px' }}>
                         <div style={{ marginBottom: 16 }}>
                             <Switch
                                 id="collapse"
@@ -393,6 +409,11 @@ export const Playground: React.FC = () => {
                             <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
                         </div>
                     </div>
+                    <Routes>
+                        <Route path="/" element={<SinglePage />} />
+                        <Route path="multiplayer" element={<Main />} />
+                    </Routes>
+                    <DeviceTable devices={devices} />
                 </div>
             </main>
         </div>
