@@ -125,39 +125,17 @@ export const Playground: React.FC = () => {
     const [devices, setDevice] = useState([]);
 
     const fetchDevices = (device: Object) => {
-        // setDevice((prev) => [...prev, device]);
-        // // setDevice(devices => devices.filter((obj, index) =>
-        // //     devices.findIndex((item) => item.macaddress === obj.location) === index))
-        // // let temp = devices.filter(element => element.macaddress !== device.macaddress);
-        // setDevice(devices.filter(element => element.macaddress !== device.macaddress));
-        // if (temp.length == 0) {
-        //     setDevice((prev) => [...prev, device]);
-        // }
-        // let deviceList = devices.filter(function (element) {
-        //     return element.ip.indexOf(fileterValue) >= 0 || camera.name.indexOf(fileterValue) >= 0;
-        // });
-        // console.log(unique);
-        // // setDevice((prev) => [...prev, device]);
-        // setDevice(unique);
-        const temp = deviceArray.filter(function (element, index) {
-            return element.macaddress !== device.macaddress;
-        });
+        const temp = deviceArray.reduce((unique, o) => {
+            if (!unique.some(obj => obj.macaddress === o.macaddress)) {
+                unique.push(o);
+            }
+            return unique;
+        }, []);
         console.log(temp);
         if (temp.length !== 0) {
-            // setDevice((prev) => [...prev, device]);
             setDevice(temp);
         }
     };
-
-    // const fetchDevices = (device: Object) => {
-    //     let uniqueVal = [];
-    //     devices.forEach(el => {
-    //         if (!uniqueVal.includes(el)) {
-    //             uniqueVal.push(el);
-    //         }
-    //     })
-    //     return uniqueVal;
-    // }
 
     useEffect(() => {
         if (typeof chrome !== 'undefined') {
@@ -217,7 +195,10 @@ export const Playground: React.FC = () => {
                                         console.log("Discovery App launched");
                                     }
                                 });
-                                chrome.runtime.sendMessage(discoveryAppIds, { discovery: true });
+                                chrome.runtime.sendMessage(discoveryAppIds, {
+                                    window: false,
+                                    discovery: true
+                                });
                             }
                         });
                         chrome.management.onEnabled.addListener(function (info) {
