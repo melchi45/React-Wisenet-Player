@@ -61,14 +61,14 @@
     position: absolute;
     z-index: 1000;
     min-width: 55em;
-    min-height: 30em;
+    min-height: 25em;
     zoom:0.5;
     -webkit-transform: scale(0.8);
     -moz-transform: scale(0.8);
     -o-transform: scale(0.8);
     -ms-transform: scale(0.8);
     transform: scale(0.8);
-
+    font-size: 10px;
   div {
     border: 0px;
     margin: 0px;

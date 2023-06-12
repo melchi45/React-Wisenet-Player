@@ -23,27 +23,29 @@ import { RestClientConfig } from '../../components/ump-player/sunapi/RestClientC
 
 type Theme = 'light' | 'dark';
 
-function createData(
-    DeviceName,
-    Model,
-    IPAddress,
-    MACAddress,
-    Port,
-    Gateway,
-    SubnetMask,
-    SupportSunapi,
-    URL
-) {
+const createData = (
+    ID: number,
+    Model: string,
+    Type: number,
+    IPAddress: string,
+    MACAddress: string,
+    Port: number,
+    Gateway: string,
+    SubnetMask: string,
+    SupportSunapi: boolean,
+    URL: string
+) => {
     return {
-        DeviceName,
-        Model,
-        IPAddress,
-        MACAddress,
-        Port,
-        Gateway,
-        SubnetMask,
-        SupportSunapi,
-        URL,
+        // id: ID,
+        model: Model,
+        type: Type,
+        ipaddress: IPAddress,
+        macaddress: MACAddress,
+        port: Port,
+        gateway: Gateway,
+        subnetmask: SubnetMask,
+        supportsunapi: SupportSunapi,
+        url: URL
     };
 }
 
@@ -114,17 +116,37 @@ const hexToRgba = (hex: string, alpha: number) => {
 };
 
 export const Playground: React.FC = () => {
-    const [collapsed, setCollapsed] = React.useState(false);
-    const [toggled, setToggled] = React.useState(false);
-    const [broken, setBroken] = React.useState(false);
-    const [rtl, setRtl] = React.useState(false);
-    const [hasImage, setHasImage] = React.useState(false);
-    const [theme, setTheme] = React.useState<Theme>('light');
+    const [collapsed, setCollapsed] = useState(false);
+    const [toggled, setToggled] = useState(false);
+    const [broken, setBroken] = useState(false);
+    const [rtl, setRtl] = useState(false);
+    const [hasImage, setHasImage] = useState(false);
+    const [theme, setTheme] = useState<Theme>('light');
     const [devices, setDevice] = useState([]);
 
     const fetchDevices = (device: Object) => {
-        let temp = devices.filter(element => element.MACAddress === device.MACAddress);
-        setDevice((prev) => [...prev, device]);
+        // setDevice((prev) => [...prev, device]);
+        // // setDevice(devices => devices.filter((obj, index) =>
+        // //     devices.findIndex((item) => item.macaddress === obj.location) === index))
+        // // let temp = devices.filter(element => element.macaddress !== device.macaddress);
+        // setDevice(devices.filter(element => element.macaddress !== device.macaddress));
+        // if (temp.length == 0) {
+        //     setDevice((prev) => [...prev, device]);
+        // }
+        // let deviceList = devices.filter(function (element) {
+        //     return element.ip.indexOf(fileterValue) >= 0 || camera.name.indexOf(fileterValue) >= 0;
+        // });
+        // console.log(unique);
+        // // setDevice((prev) => [...prev, device]);
+        // setDevice(unique);
+        const temp = deviceArray.filter(function (element, index) {
+            return element.macaddress !== device.macaddress;
+        });
+        console.log(temp);
+        if (temp.length !== 0) {
+            // setDevice((prev) => [...prev, device]);
+            setDevice(temp);
+        }
     };
 
     // const fetchDevices = (device: Object) => {
@@ -137,7 +159,7 @@ export const Playground: React.FC = () => {
     //     return uniqueVal;
     // }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (typeof chrome !== 'undefined') {
             if (chrome.runtime && chrome.runtime.onMessageExternal) {
                 try {
@@ -147,12 +169,13 @@ export const Playground: React.FC = () => {
                     if (chrome.runtime.onMessageExternal) {
                         chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
                             if (message.launch == true) {
-
+                                console.log("sender" + JSON.stringify(sender));
                             } else {
                                 console.log("sender" + JSON.stringify(sender));
                                 console.log("message" + JSON.stringify(message));
                                 console.log("message" + devices.length);
                                 let device = createData(
+                                    devices.length + 1,
                                     message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName,
                                     message.modelType,
                                     message.chIP,
@@ -163,6 +186,12 @@ export const Playground: React.FC = () => {
                                     message.isSupportSunapi == 1 ? true : false,
                                     message.DDNSURL
                                 );
+                                deviceArray.push(device);
+                                // deviceArray.forEach(function (device) {
+                                //     console.log("device info:\r\n" + JSON.stringify(device));
+                                //     // var data = cameraInfo[ip];
+                                //     // result.data.push({ ip: data.ip, port: data.port, name: data.name, protocol: data.protocol });
+                                // });
                                 fetchDevices(device);
                                 // var devices = devices.filter(function (elem, pos) {
                                 //     return devices.indexOf(elem) == pos;
@@ -259,7 +288,7 @@ export const Playground: React.FC = () => {
     };
 
     return (
-        <div style={{ display: 'flex', height: '100%', direction: rtl ? 'rtl' : 'ltr' }}>
+        <div style={{ display: 'flex', height: '100%', direction: rtl ? 'rtl' : 'ltr', width: '100vw' }}>
             <Sidebar
                 collapsed={collapsed}
                 toggled={toggled}
@@ -364,58 +393,58 @@ export const Playground: React.FC = () => {
             </Sidebar>
 
             <main>
-                <div style={{ padding: '16px 24px', color: '#44596e' }}>
-                    <div style={{ marginBottom: '16px' }}>
-                        {broken && (
-                            <button className="sb-button" onClick={() => setToggled(!toggled)}>
-                                Toggle
-                            </button>
-                        )}
-                    </div>
-                    <div style={{ marginBottom: '48px' }}>
-                        <Typography variant="h4" fontWeight={600}>
-                            React Pro Sidebar
-                        </Typography>
-                        <Typography variant="body2">
-                            React Pro Sidebar provides a set of components for creating high level and
-                            customizable side navigation
-                        </Typography>
-                        <PackageBadges />
-                    </div>
-                    <div style={{ display: 'flex', padding: '0 8px' }}>
-                        <div style={{ marginBottom: 16 }}>
-                            <Switch
-                                id="collapse"
-                                checked={collapsed}
-                                onChange={() => setCollapsed(!collapsed)}
-                                label="Collapse"
-                            />
-                        </div>
-
-                        <div style={{ marginBottom: 16 }}>
-                            <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
-                        </div>
-
-                        <div style={{ marginBottom: 16 }}>
-                            <Switch
-                                id="theme"
-                                checked={theme === 'dark'}
-                                onChange={handleThemeChange}
-                                label="Dark theme"
-                            />
-                        </div>
-
-                        <div style={{ marginBottom: 16 }}>
-                            <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
-                        </div>
-                    </div>
-                    <Routes>
-                        <Route path="/" element={<SinglePage />} />
-                        <Route path="multiplayer" element={<Main />} />
-                    </Routes>
-                    <DeviceTable devices={devices} />
+                {/* <div className="content" > */}
+                <div style={{ marginBottom: '16px' }}>
+                    {broken && (
+                        <button className="sb-button" onClick={() => setToggled(!toggled)}>
+                            Toggle
+                        </button>
+                    )}
                 </div>
-            </main>
-        </div>
+                <div style={{ marginBottom: '16px' }}>
+                    <Typography variant="h4" fontWeight={600}>
+                        React Pro Sidebar
+                    </Typography>
+                    <Typography variant="body2">
+                        React Pro Sidebar provides a set of components for creating high level and
+                        customizable side navigation
+                    </Typography>
+                    <PackageBadges />
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ marginBottom: 16 }}>
+                        <Switch
+                            id="collapse"
+                            checked={collapsed}
+                            onChange={() => setCollapsed(!collapsed)}
+                            label="Collapse"
+                        />
+                    </div>
+
+                    <div style={{ marginBottom: 16 }}>
+                        <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
+                    </div>
+
+                    <div style={{ marginBottom: 16 }}>
+                        <Switch
+                            id="theme"
+                            checked={theme === 'dark'}
+                            onChange={handleThemeChange}
+                            label="Dark theme"
+                        />
+                    </div>
+
+                    <div style={{ marginBottom: 16 }}>
+                        <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
+                    </div>
+                </div>
+                <Routes>
+                    <Route path="/" element={<SinglePage />} />
+                    <Route path="multiplayer" element={<Main />} />
+                </Routes>
+                <DeviceTable devices={devices} />
+                {/* </div> */}
+            </main >
+        </div >
     );
 };

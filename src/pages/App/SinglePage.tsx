@@ -38,10 +38,10 @@ export const SinglePage: React.FC = () => {
     //   };
 
     return (
-        <main>
-            <div className="player-block">
-                <Player id="player1" device={device1} control={true} />
-            </div>
-        </main>
+        // <main>
+        <div className="player-block">
+            <Player id="player1" device={device1} control={true} />
+        </div>
+        // </main>
     );
 };
