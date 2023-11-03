@@ -14,40 +14,15 @@ import { SidebarFooter } from '../../components/Sidebar/SidebarFooter';
 import { Badge } from '../../components/Sidebar/Badge';
 import { Typography } from '../../components/Sidebar/Typography';
 import { PackageBadges } from '../../components/Sidebar/PackageBadges';
-import { SinglePage } from './SinglePage';
-import { Main } from './Main';
-import { Routes, Route, Link } from "react-router-dom";
+import { SinglePlayerPage } from './SinglePlayerPage';
+import { MultiPlayerPage } from './MultiPlayerPage';
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { DeviceTable } from '../../components/Controller/Table/DeviceTable';
 import { RestClientConfig } from '../../components/ump-player/sunapi/RestClientConfig';
+import { IDevice, ISearchDevice } from '../../components/ump-player/Constant/Constant';
 
 
 type Theme = 'light' | 'dark';
-
-const createData = (
-    ID: number,
-    Model: string,
-    Type: number,
-    IPAddress: string,
-    MACAddress: string,
-    Port: number,
-    Gateway: string,
-    SubnetMask: string,
-    SupportSunapi: boolean,
-    URL: string
-) => {
-    return {
-        // id: ID,
-        model: Model,
-        type: Type,
-        ipaddress: IPAddress,
-        macaddress: MACAddress,
-        port: Port,
-        gateway: Gateway,
-        subnetmask: SubnetMask,
-        supportsunapi: SupportSunapi,
-        url: URL
-    };
-}
 
 const themes = {
     light: {
@@ -86,21 +61,6 @@ const themes = {
     },
 };
 
-const deviceArray = [
-    createData(
-        1,
-        'PNM-C32083RVQ',
-        0,
-        '192.168.212.34',
-        '',
-        80,
-        '192.168.212.1',
-        '255.255.255.0',
-        true,
-        'http://192.168.212.34/index.html'
-    ),
-];
-
 const RESTCLIENT_CONFIG = RestClientConfig;
 const discoveryApp = null;
 const discoveryAppIds = RESTCLIENT_CONFIG.discoveryAppId;
@@ -122,23 +82,46 @@ export const Playground: React.FC = () => {
     const [rtl, setRtl] = useState(false);
     const [hasImage, setHasImage] = useState(false);
     const [theme, setTheme] = useState<Theme>('light');
-    const [devices, setDevice] = useState([]);
+    const [searchDevices, addNewDevice] = useState<ISearchDevice[]>([]);
+    const [selectedDevices, setSelectedDevices] = useState<IDevice[]>([]);
+    const [selectedDevice, setSelectedDevice] = useState<IDevice>();
 
-    const fetchDevices = (device: Object) => {
-        const temp = deviceArray.reduce((unique, o) => {
-            if (!unique.some(obj => obj.macaddress === o.macaddress)) {
-                unique.push(o);
+    const fetchDevices = (newDevice: ISearchDevice) => {
+        addNewDevice((searchDevices) => {
+            const sameDevices = searchDevices.filter((device) => device.id === newDevice.id);
+            // replace old value from DeviceTable
+            if (sameDevices.length > 0) {
+                newDevice.HttpType = sameDevices[0].HttpType;
+                newDevice.HttpPort = sameDevices[0].HttpPort;
+                newDevice.HttpsPort = sameDevices[0].HttpsPort;
             }
-            return unique;
-        }, []);
-        console.log(temp);
-        if (temp.length !== 0) {
-            setDevice(temp);
-        }
+            const filteredDevices = searchDevices.filter((device) => device.id !== newDevice.id);
+            return [...filteredDevices, newDevice];
+        });
+        // const filteredDevices = searchDevices.filter((device) => device.MACAddress === newDevice.MACAddress);
+        // if (filteredDevices.length <= 0) {
+        //     // return [...filteredDevices, newDevice];
+        //     addNewDevice((searchDevices) => [...searchDevices, newDevice]);
+        // }
+
+        // if (!searchDevices.find((device) => device.id === newDevice.id)) {
+        //     console.log(newDevice);
+        //     addNewDevice((searchDevices) => [...searchDevices, newDevice]);
+        // }
     };
 
     useEffect(() => {
         if (typeof chrome !== 'undefined') {
+            if (chrome.storage) {
+                //Set some content from background page
+                // chrome.storage.local.set({ "identifier": "Some awesome Content" }, function () {
+                //     console.log("Storage Succesful");
+                // });
+                //get all contents of chrome storage
+                chrome.storage.local.get(null, function (obj) {
+                    console.log("Read content data of chrome storage => " + JSON.stringify(obj));
+                });
+            }
             if (chrome.runtime && chrome.runtime.onMessageExternal) {
                 try {
                     // discoveryApp = chrome.runtime.connect(discoveryAppIds);
@@ -149,33 +132,41 @@ export const Playground: React.FC = () => {
                             if (message.launch == true) {
                                 console.log("sender" + JSON.stringify(sender));
                             } else {
-                                console.log("sender" + JSON.stringify(sender));
-                                console.log("message" + JSON.stringify(message));
-                                console.log("message" + devices.length);
-                                let device = createData(
-                                    devices.length + 1,
-                                    message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName,
-                                    message.modelType,
-                                    message.chIP,
-                                    message.chMac,
-                                    message.nPort,
-                                    message.chGateway,
-                                    message.chSubnetMask,
-                                    message.isSupportSunapi == 1 ? true : false,
-                                    message.DDNSURL
-                                );
-                                deviceArray.push(device);
-                                // deviceArray.forEach(function (device) {
-                                //     console.log("device info:\r\n" + JSON.stringify(device));
-                                //     // var data = cameraInfo[ip];
-                                //     // result.data.push({ ip: data.ip, port: data.port, name: data.name, protocol: data.protocol });
-                                // });
-                                fetchDevices(device);
-                                // var devices = devices.filter(function (elem, pos) {
-                                //     return devices.indexOf(elem) == pos;
-                                // });
-                                // setDevice((prevDevices) => [...prevDevices, device]);
-                                // devices = Object.keys(Object.fromEntries(devices.map(v => [v, 0])));
+                                // console.log("sender" + JSON.stringify(sender));
+                                // console.log("message" + JSON.stringify(message));
+                                // console.log("message" + devices.length);
+                                const strMacAddress: string = message.chMac;
+                                const strIpAddress: string = message.chIP;
+                                const strModel: string = message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName;
+                                const numType: number = message.modelType;
+                                const numPort: number = message.nPort;
+                                const numHttpType: boolean = (message.httpType != undefined) ? (message.httpType ? true : false) : false;
+                                const numHttpPort: number = message.nHttpPort === 0 ? 80 : message.nHttpPort;
+                                const numHttpsPort: number = message.nHttpsPort === 0 ? 443 : message.nHttpsPort;
+                                const strGateway: string = message.chGateway;
+                                const strSubnetMask: string = message.chSubnetMask;
+                                const boolSunapiSupport: boolean = message.isSupportSunapi == 1 ? true : false;
+                                const strDDNS: string = message.DDNSURL;
+                                const separator: string = '_';
+                                const strId: String = [strMacAddress, strIpAddress].join(separator);
+                                const Id: number = searchDevices.length + 1;
+
+                                const newDevice: ISearchDevice = {
+                                    id: strId,
+                                    Model: strModel,
+                                    Type: numType,
+                                    IPAddress: strIpAddress,
+                                    MACAddress: strMacAddress,
+                                    Port: numPort,
+                                    HttpType: numHttpType,
+                                    HttpPort: numHttpPort,
+                                    HttpsPort: numHttpsPort,
+                                    Gateway: strGateway,
+                                    SubnetMask: strSubnetMask,
+                                    SupportSunapi: boolSunapiSupport,
+                                    URL: strDDNS
+                                };
+                                fetchDevices(newDevice);
                             }
                         });
                     }
@@ -232,6 +223,67 @@ export const Playground: React.FC = () => {
     // handle on image change event
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setHasImage(e.target.checked);
+    };
+
+    const navigate = useNavigate();
+
+    const handleSecureModeChanged = (changedDevice: ISearchDevice) => {
+        // fetchDevices(changedDevice);
+        // console.log(JSON.stringify(changedDevice));
+    }
+
+    const handleSelectedDevices = (devices: ISearchDevice[]) => {
+        if (devices.length > 1) {
+            let newDevices: IDevice[] = [];
+            devices.forEach((element: ISearchDevice, index: Number) => {
+                const newDevice: IDevice = {
+                    id: "ump-player-" + index,
+                    hostname: element.IPAddress,
+                    port: element.Port,
+                    username: "admin",
+                    profile: "H.264",
+                    device: "camera",
+                    password: "5tkatjd!",
+                    autoplay: true,
+                    statistics: true,
+                    https: element.HttpType
+                };
+                newDevices.push(newDevice);
+            });
+
+            setSelectedDevices(newDevices);
+            //Set some content from background page
+            chrome.storage.local.set({ devices: selectedDevices }, function () {
+                console.log("Storage Succesful");
+            });
+        } else if (devices.length == 1) {
+            const newDevice: IDevice = {
+                id: "ump-player-1",
+                hostname: devices[0].IPAddress,
+                port: devices[0].Port,
+                username: "admin",
+                profile: "H.264",
+                device: "camera",
+                password: "5tkatjd!",
+                autoplay: true,
+                statistics: true,
+                https: devices[0].HttpType
+            };
+            // set device information
+            setSelectedDevice(newDevice);
+            navigate("singleplayer", { state: { device: newDevice } });
+            //Set some content from background page
+            chrome.storage.local.set({ device: newDevice }, function () {
+                console.log("Storage Succesful");
+            });
+            //get all contents of chrome storage
+            chrome.storage.local.get(null, function (obj) {
+                console.log("Read content data of chrome storage => " + JSON.stringify(obj));
+            });
+        } else {
+            navigate("app.html");
+            // navigate("multiplayer", { state: { devices: null } });
+        }
     };
 
     const menuItemStyles: MenuItemStyles = {
@@ -305,9 +357,9 @@ export const Playground: React.FC = () => {
                                     </Badge>
                                 }
                             >
-                                <MenuItem component={<Link to="/" className="link" />}> Single Player</MenuItem>
+                                <MenuItem component={<Link to="app.html" className="link" />}> Main Page</MenuItem>
+                                <MenuItem component={<Link to="singleplayer" className="link" />}> Single Player</MenuItem>
                                 <MenuItem component={<Link to="multiplayer" className="link" />}> Multi Player</MenuItem>
-                                <MenuItem> Bar charts</MenuItem>
                             </SubMenu>
                             <SubMenu
                                 label="Charts"
@@ -375,55 +427,68 @@ export const Playground: React.FC = () => {
 
             <main>
                 {/* <div className="content" > */}
-                <div style={{ marginBottom: '16px' }}>
-                    {broken && (
-                        <button className="sb-button" onClick={() => setToggled(!toggled)}>
-                            Toggle
-                        </button>
-                    )}
-                </div>
-                <div style={{ marginBottom: '16px' }}>
-                    <Typography variant="h4" fontWeight={600}>
-                        React Pro Sidebar
-                    </Typography>
-                    <Typography variant="body2">
-                        React Pro Sidebar provides a set of components for creating high level and
-                        customizable side navigation
-                    </Typography>
-                    <PackageBadges />
-                </div>
-                <div style={{ display: 'flex' }}>
-                    <div style={{ marginBottom: 16 }}>
-                        <Switch
-                            id="collapse"
-                            checked={collapsed}
-                            onChange={() => setCollapsed(!collapsed)}
-                            label="Collapse"
-                        />
+                <header>
+                    <div style={{ marginBottom: '16px' }}>
+                        {broken && (
+                            <button className="sb-button" onClick={() => setToggled(!toggled)}>
+                                Toggle
+                            </button>
+                        )}
                     </div>
+                    <div style={{ marginBottom: '16px' }}>
+                        <Typography variant="h4" fontWeight={600}>
+                            React Pro Sidebar
+                        </Typography>
+                        <Typography variant="body2">
+                            React Pro Sidebar provides a set of components for creating high level and
+                            customizable side navigation
+                        </Typography>
+                        <PackageBadges />
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ marginBottom: 16 }}>
+                            <Switch
+                                id="collapse"
+                                checked={collapsed}
+                                onChange={() => setCollapsed(!collapsed)}
+                                label="Collapse"
+                            />
+                        </div>
 
-                    <div style={{ marginBottom: 16 }}>
-                        <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
-                    </div>
+                        <div style={{ marginBottom: 16 }}>
+                            <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
+                        </div>
 
-                    <div style={{ marginBottom: 16 }}>
-                        <Switch
-                            id="theme"
-                            checked={theme === 'dark'}
-                            onChange={handleThemeChange}
-                            label="Dark theme"
-                        />
-                    </div>
+                        <div style={{ marginBottom: 16 }}>
+                            <Switch
+                                id="theme"
+                                checked={theme === 'dark'}
+                                onChange={handleThemeChange}
+                                label="Dark theme"
+                            />
+                        </div>
 
-                    <div style={{ marginBottom: 16 }}>
-                        <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
+                        <div style={{ marginBottom: 16 }}>
+                            <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
+                        </div>
                     </div>
-                </div>
-                <Routes>
-                    <Route path="/" element={<SinglePage />} />
-                    <Route path="multiplayer" element={<Main />} />
-                </Routes>
-                <DeviceTable devices={devices} />
+                </header>
+                <content>
+                    <Routes>
+                        <Route path="/app.html" element={<div>메인페이지임</div>} />
+                        <Route path="singleplayer" element={<SinglePlayerPage device={selectedDevice} />} />
+                        <Route path="multiplayer" element={<MultiPlayerPage devices={selectedDevices} />} />
+                    </Routes>
+                </content>
+                <footer>
+                    <DeviceTable devices={searchDevices}
+                        handleSelectedDevice={handleSelectedDevices}
+                        handleSecureModeChanged={handleSecureModeChanged} />
+                </footer>
+                {/* <pre style={{ fontSize: 10 }}>
+                    {JSON.stringify(selectedDevice, null, 4)}
+                </pre> */}
+
                 {/* </div> */}
             </main >
         </div >
