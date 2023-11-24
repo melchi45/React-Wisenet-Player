@@ -17,7 +17,7 @@
     "@babel/plugin-transform-react-jsx": "7.22.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@melchi45/ump-player": "^3.2.14",
+    "@melchi45/ump-player": "^3.2.15",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@mui/system": "5.13.2",
@@ -32,6 +32,7 @@
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-router-dom": "^6.17.0",
     "react-switch": "^7.0.0",
+    "sylvester-es6": "^0.0.2",
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
