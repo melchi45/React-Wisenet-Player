@@ -82,28 +82,46 @@ body {
   }
 
   .grid-container {
-    // display: grid;
-    // grid-template-columns: auto auto auto;
-    // padding: 10px;
-    height: 100%;
+    // // display: grid;
+    // // grid-template-columns: auto auto auto;
+    // // padding: 10px;
+    // height: 100%;
 
-    flex: 1;
-    /* padding: 24px; */
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: hidden;
+    // flex: 1;
+    // /* padding: 24px; */
+    // flex-grow: 1;
+    // display: flex;
+    // flex-direction: column;
+    // overflow-y: hidden;
+    // position: relative;
+    // transition: width, left, right, 300ms;
+    // min-width: 300px;
+    // max-width: 100%;
+    // color: #607489;
+    /* overflow: scroll; */
     position: relative;
-    transition: width, left, right, 300ms;
-    min-width: 300px;
+    display: flex;
+    flex: 1;
+    border-radius: 10px;
+    gap: 20px;
+    max-height: 100%;
     max-width: 100%;
-    color: #607489;
-
+    height: 100%;
+    // height: 100vh;
+    // border: 3px solid lightsteelblue;
+    // border-radius: 10px;
+    // box-sizing: border-box;
   }
 
   .grid-main {
+    flex: 2;
+    background: #000;
+    opacity: 0.8;
+    border-radius: 10px;
     height: 100%;
+    width: 100%;
   }
+
 
   .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
@@ -114,16 +132,51 @@ body {
   }
 
   .grid-flow {
+    // overflow: auto;
     display: flex;
-    flex-direction: row;
-    // grid-auto-flow: row;
-    // grid-template-columns: repeat(3, 1fr);
-    // grid-template-rows: repeat(3, 1fr);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    // align-content: center;
+    align-content: flex-start;
+    vertical-align: middle;
+    flex: 1;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    height: -webkit-fill-available;
+
+    >div {
+      margin: 10px;
+      width: 320px;
+      height: 180px;
+      // height: min-content;
+    }
 
     .player-block {
-      padding: 0px 0px;
-      font-size: 7px;
+      position: relative;
+      vertical-align: middle;
+      align-self: center;
+      border-radius: 10px;
+      overflow: hidden;
+      display: inline-block;
+      box-shadow: var(--shadow-dark);
+      background: #fff;
+      animation: show 0.4s ease;
+      border-radius: 10px;
     }
+  }
+
+  .scrollbar {
+    // margin-left: 30px;
+    float: left;
+    // height: 300px;
+    // width: 65px;
+    // background: #F5F5F5;
+    overflow-y: scroll;
+    // margin-bottom: 25px;
   }
 
   main {
@@ -229,6 +282,29 @@ body {
     height: 100%;
     padding: 0px 0px;
     background: #000;
+    // display: flex;
+    // padding: 8px 8px;
+    // display: flex;
+    // margin-bottom: 24px;
+    // font-size: 7px;
+    /* max-height: calc(100% / 2); */
+    color: #545454;
+    border-radius: 10px;
+
+    // border: 1px solid #aaa;
+    // width: 100%;
+    // height: 100%;
+    // background: rgba(28, 28, 28, 0.5);
+    // padding: 10px;
+    >span {
+      margin-left: 10px;
+    }
+  }
+
+  .container-block {
+    height: 100%;
+    padding: 0px 0px;
+    // background: #000;
     // display: flex;
     // padding: 8px 8px;
     // display: flex;
@@ -375,4 +451,58 @@ body {
     color: #000000;
     background: #ffd331;
   }
+}
+
+.Resizer {
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  border-left: 5px solid rgba(0, 0, 0, 0.9);
+  border-right: 5px solid rgba(0, 0, 0, 0.9);
+}
+
+.Resizer:hover {
+  -webkit-transition: all 2s ease;
+  transition: all 2s ease;
+}
+
+.Resizer.horizontal {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid rgba(255, 255, 255, 0);
+  border-bottom: 5px solid rgba(255, 255, 255, 0);
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 5px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.vertical {
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+  border-left: 5px solid rgba(0, 0, 0, 0.5);
+  border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+.Resizer.disabled {
+  cursor: not-allowed;
+}
+
+.Resizer.disabled:hover {
+  border-color: transparent;
 }

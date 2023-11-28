@@ -27,6 +27,20 @@ import {
   deviceChannelOptions,
   IInitializedData
 } from '../../components/ump-player/Constant/Constant';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+// Button icons
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import GridViewIcon from '@mui/icons-material/GridView';
+import RemoveIcon from '@mui/icons-material/Remove';
+import Stack from '@mui/material/Stack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
+
 import { SunapiManager } from '../../components/ump-player/sunapi/SunapiManager';
 
 type Theme = 'light' | 'dark';
@@ -110,7 +124,19 @@ export const Playground: React.FC = () => {
   const [defaultPassword, setDefaultPassword] = useState("5tkatjd!");
 
   useEffect(() => {
-    console.log(selectedDevice);
+    //get all contents of chrome storage
+    chrome.storage.local.get(null, function (obj) {
+      // console.log("Read content data of chrome storage => " + JSON.stringify(obj));
+      if (obj && obj.device) {
+        setSelectedDevice(obj.device);
+        // console.log(selectedDevice);
+      }
+      if (obj && obj.devices) {
+        setSelectedDevices(obj.devices);
+        // console.log(selectedDevices);
+      }
+    });
+
     if (typeof chrome !== 'undefined') {
       if (chrome.storage) {
         //Set some content from background page
@@ -134,17 +160,17 @@ export const Playground: React.FC = () => {
               } else {
                 // console.log("sender" + JSON.stringify(sender));
                 // console.log("message" + JSON.stringify(message));
-                // console.log("message" + devices.length);
-                const strMacAddress: string = message.chMac;
-                const strIpAddress: string = message.chIP;
+                // console.log("message" + devices.length);ÿ
+                const strMacAddress: string = message.chMac.replace('ÿ', '');
+                const strIpAddress: string = message.chIP.replace('ÿ', '');
                 const strModel: string = message.chDeviceNameNew !== '' ? message.chDeviceNameNew : message.chDeviceName;
                 const numType: number = message.modelType;
                 const numPort: number = message.nPort;
                 const numHttpType: boolean = (message.httpType != undefined) ? (message.httpType ? true : false) : false;
                 const numHttpPort: number = message.nHttpPort === 0 ? 80 : message.nHttpPort;
                 const numHttpsPort: number = message.nHttpsPort === 0 ? 443 : message.nHttpsPort;
-                const strGateway: string = message.chGateway;
-                const strSubnetMask: string = message.chSubnetMask;
+                const strGateway: string = message.chGateway.replace('ÿ', '');;
+                const strSubnetMask: string = message.chSubnetMask.replace('ÿ', '');;
                 const boolSunapiSupport: boolean = message.isSupportSunapi == 1 ? true : false;
                 const strDDNS: string = message.DDNSURL;
                 const separator: string = '_';
@@ -216,7 +242,7 @@ export const Playground: React.FC = () => {
         }
       }
     }
-  }, [selectedDevice]);
+  }, []);
 
   const fetchDevices = (newDevice: ISearchDevice, from: Number) => {
     addNewDevice((searchDevices) => {
@@ -428,7 +454,7 @@ export const Playground: React.FC = () => {
           for (let i = 0; i < maxChannel; i++) {
             let channel = i + 1;
             const newDevice: IDevice = {
-              id: "ump-player-" + index + "-" + channel,
+              id: "ump-player-" + element.IPAddress + "-" + index + "-" + channel,
               hostname: element.IPAddress,
               port: element.Port,
               username: element.Username,
@@ -444,7 +470,7 @@ export const Playground: React.FC = () => {
           }
         } else {
           const newDevice: IDevice = {
-            id: "ump-player-" + index,
+            id: "ump-player-" + element.IPAddress + "-" + index,
             hostname: element.IPAddress,
             port: element.Port,
             username: element.Username,
@@ -460,11 +486,14 @@ export const Playground: React.FC = () => {
         }
       });
 
+      // let newArray = [...selectedDevices, ...newDevices]
+      // setSelectedDevices(newArray);
+
       if (newDevices.length > 1) {
         navigate("multiplayer", { state: { devices: newDevices } });
         setSelectedDevices(newDevices);
         //Set some content from background page
-        chrome.storage.local.set({ devices: newDevices }, function () {
+        chrome.storage.local.set({ devices: selectedDevices }, function () {
           console.log("Storage Succesful");
         });
       }
@@ -666,34 +695,37 @@ export const Playground: React.FC = () => {
             <PackageBadges />
           </div>
           <div className="switchs">
-            <div style={{ marginBottom: 16 }}>
-              <Switch
-                id="collapse"
-                checked={collapsed}
-                onChange={() => setCollapsed(!collapsed)}
-                label="Collapse"
-              />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <Switch id="theme" checked={theme === 'dark'} onChange={handleThemeChange} label="Dark theme" />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <Switch id="use_default_account" checked={useDefault} onChange={useDefaultAccount} label="Use Default Account" />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
-              <Switch id="visual_device_table" checked={deviceTable} onChange={handleDeviceTable} label="Devices Table" />
-            </div>
+            <Box sx={{ '& button': { m: 1 } }}>
+              <Stack direction="row" spacing={1}>
+                <Switch id="collapse" checked={collapsed} onChange={() => setCollapsed(!collapsed)} label="Collapse" />
+                <Switch id="rtl" checked={rtl} onChange={handleRTLChange} label="RTL" />
+                <Switch id="theme" checked={theme === 'dark'} onChange={handleThemeChange} label="Dark theme" />
+                <Switch id="image" checked={hasImage} onChange={handleImageChange} label="Image" />
+                <Switch id="use_default_account" checked={useDefault} onChange={useDefaultAccount} label="Use Default Account" />
+                <Switch id="visual_device_table" checked={deviceTable} onChange={handleDeviceTable} label="Devices Table" />
+                <IconButton aria-label="Add">
+                  <AddIcon />
+                </IconButton>
+                <IconButton aria-label="Remove">
+                  <RemoveIcon />
+                </IconButton>
+                <IconButton aria-label="Grid View">
+                  <GridViewIcon />
+                </IconButton>
+                <Button color="primary" aria-label="Ratio 4:3">
+                  4:3
+                </Button>
+                <Button color="primary" disabled aria-label="Ratio 16:9">
+                  16:9
+                </Button>
+                <Button color="primary" aria-label="Ratio 1:1">
+                  1:1
+                </Button>
+                <Button color="primary" aria-label="Ratio 1:2">
+                  1:2
+                </Button>
+              </Stack>
+            </Box>
           </div>
         </header>
         <content>
@@ -706,6 +738,7 @@ export const Playground: React.FC = () => {
         <footer>
           {deviceTable &&
             <DeviceTable devices={searchDevices}
+              selectedDevicesFromParents={selectedDevices}
               handleSelectedDevice={onSelectedDevice}
               handleSelectedDevices={onSelectedDevices}
               handleUpdateDevice={fetchDevices} />

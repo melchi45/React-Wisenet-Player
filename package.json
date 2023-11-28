@@ -62,6 +62,7 @@
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.1",
     "prettier": "^2.8.8",
+    "react-split-pane": "^0.1.92",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.9",
     "sass": "^1.63.2",

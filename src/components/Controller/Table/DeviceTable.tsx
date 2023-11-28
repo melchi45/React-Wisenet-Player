@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Checkbox } from "@mui/material";
 import { LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -13,7 +13,9 @@ import {
   GridEventListener,
   GridRowParams,
   MuiEvent,
-  GridCallbackDetails
+  GridCallbackDetails,
+  GridRowSelectionModel,
+  GridRowId
 } from '@mui/x-data-grid';
 import {
   Alert,
@@ -23,19 +25,21 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {
+  IDevice,
   deviceTypeOptions,
   deviceHttpOptions,
   ISearchDevice,
   SearchDevicesProps,
   ResetClientProps,
   IInitializedData,
-  deviceChannelOptions
+  deviceChannelOptions,
+  DeviceTableProps
 } from '../../ump-player/Constant/Constant';
 import { SunapiManager } from '../../ump-player/sunapi/SunapiManager';
 
 const fastJsonStringfy = window.fastJsonStringfy;
 
-interface PropsWithHandler extends SearchDevicesProps {
+interface PropsWithHandler extends DeviceTableProps {
   handleSelectedDevice: (device: ISearchDevice) => void;
   handleSelectedDevices: (devices: ISearchDevice[]) => void;
   handleUpdateDevice: (device: ISearchDevice, from: Number) => void;
@@ -106,10 +110,34 @@ const updateRowData = () => {
   );
 };
 
-export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, handleSelectedDevice, handleSelectedDevices, handleUpdateDevice }) => {
+export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, selectedDevicesFromParents, handleSelectedDevice, handleSelectedDevices, handleUpdateDevice }) => {
   // set data to selectRows which selected items on data grid
+  // https://codesandbox.io/p/sandbox/64104554-can-i-initialize-the-checkbox-selection-in-a-material-ui-datagrid-6pjrg?file=%2Fdemo.tsx%3A46%2C9-46%2C40
+  // const [rowSelectionModel, setSelectionModel] = useState<GridRowSelectionModel>(() =>
+  //   devices.filter(
+  //     device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  //   ).map(device => device.id)
+  // );
+  // console.log(devices.filter(
+  //   device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  // ).map(device => device.id));
+  // const a = devices.filter(
+  //   device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  // ).map(device => device.id) as GridRowSelectionModel;
+  // devices.filter(
+  //   device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  // ).map(device => device.id) as GridRowSelectionModel
 
-  const [selectedDevices, setSelectedRows] = React.useState<ISearchDevice[]>([]);
+  // const [rowSelectionModel, setSelectionModel] = useState<GridRowSelectionModel>(() => {
+  //   return devices.filter(
+  //     device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  //   ).map(device => device.id as GridRowId);
+  // });
+  const [selectedDevices, setSelectedRows] = React.useState<ISearchDevice[]>(() => {
+    return devices.filter(
+      device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+    );
+  });
   const [selectedDevice, setSelectedRow] = React.useState<ISearchDevice>({
     id: "",
     Model: "",
@@ -224,27 +252,27 @@ export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, handleSelecte
       editable: true,
       type: 'singleSelect',
       valueOptions: deviceHttpOptions,
-      // valueFormatter: ({ id, value, field }) => {
-      //   const option = deviceHttpOptions.find(
-      //     ({ value: optionValue }) => optionValue === value
-      //   );
+      valueFormatter: ({ id, value, field }) => {
+        const option = deviceHttpOptions.find(
+          ({ value: optionValue }) => optionValue === value
+        );
 
-      //   const selectedIDs = new Set([id]);
-      //   const selectedRows = devices.filter((row: any) =>
-      //     selectedIDs.has(row.id),
-      //   );
-      //   if (field === "HttpType") {
-      //     selectedRows[0].HttpType = value;
-      //     if (value) {
-      //       selectedRows[0].Port = selectedRows[0].HttpsPort;
-      //     } else {
-      //       selectedRows[0].Port = selectedRows[0].HttpPort;
-      //     }
-      //     //   handleUpdateDevice(selectedRows[0], 1);
-      //   }
+        const selectedIDs = new Set([id]);
+        const selectedRows = devices.filter((row: any) =>
+          selectedIDs.has(row.id),
+        );
+        if (field === "HttpType") {
+          selectedRows[0].HttpType = value;
+          if (value) {
+            selectedRows[0].Port = selectedRows[0].HttpsPort;
+          } else {
+            selectedRows[0].Port = selectedRows[0].HttpPort;
+          }
+          //   handleUpdateDevice(selectedRows[0], 1);
+        }
 
-      //   return option!.label;
-      // },
+        return option!.label;
+      },
     },
     {
       field: "Gateway",
@@ -264,13 +292,29 @@ export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, handleSelecte
       width: 300
     }
   ];
+
+  // useEffect(() => {
+  //   const rowSelectionData = devices.filter(
+  //     device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  //   ).map(device => device.id);
+  //   // console.log("data:" + devices.filter(
+  //   //   device => selectedDevicesFromParents.some(selected => selected.hostname === device.IPAddress)
+  //   // ).map(device => device.id))
+  //   rowSelectionData.forEach(element => {
+  //     console.log("data:" + element);
+  //     setSelectionModel(element);
+  //   });
+
+  //   console.log(rowSelectionModel);
+  // });
+
   const updateRow = updateRowData();
   const [snackbar, setSnackbar] = React.useState<Pick<
     AlertProps,
     'children' | 'severity'
   > | null>(null);
   const processRowUpdate = React.useCallback(
-    async (newRow: GridRowModel, oldRow: GridRowModel) => {
+    async (newRow: GridRowModel) => {
       // Make the HTTP request to save in the backend
       const response = await updateRow(newRow);
       const updateData = response as ISearchDevice;
@@ -304,11 +348,13 @@ export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, handleSelecte
   }, []);
 
   const onRowsSelectionHandler = (ids: any) => {
+    // setSelectionModel(ids);
     const selectedIDs = new Set(ids);
     const selectedRows = devices.filter((row: any) =>
       selectedIDs.has(row.id),
     );
     setSelectedRows(selectedRows);
+    console.log(selectedDevices);
     handleSelectedDevices(selectedRows);
   };
 
