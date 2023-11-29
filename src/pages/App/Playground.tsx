@@ -116,10 +116,10 @@ export const Playground: React.FC = () => {
     device: "camera",
     password: "",
     autoplay: true,
-    statistics: true,
+    statistics: false,
     https: false
   });
-  const [useDefault, setDefailt] = useState(false);
+  const [useDefault, setDefailt] = useState(true);
   const [defaultUsername, setDefaultUsername] = useState("admin");
   const [defaultPassword, setDefaultPassword] = useState("5tkatjd!");
 
@@ -463,7 +463,7 @@ export const Playground: React.FC = () => {
               device: "camera",
               password: element.Password,
               autoplay: true,
-              statistics: true,
+              statistics: false,
               https: element.HttpType
             };
             newDevices.push(newDevice);
