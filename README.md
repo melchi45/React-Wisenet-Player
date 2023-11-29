@@ -153,13 +153,22 @@ Michael Xieyang Liu | [Website](https://lxieyang.github.io)
 
 [1]| [Website](https://codesandbox.io/s/react-admin-0lp1zw)
 
+---
 
 ## Wisenet Player
-Wisenet player is CCTV Video player for CCTV from Hanwha Vision Co. Ltd.
+Wisenet Player is Hanwha Vision's CCTV video player for CCTV.
 
-This source code include ump-player for media player using video tag on web browser and WASM decoder using React 18.
-Plyer component can be re-use the player for each camera and each channel.
+This source code includes ump-player and React for a media player using the video tag in a web browser.
+Includes a WASM decoder that uses .
+The Player component can reuse the player for each camera and channel.
 
+The information required for video playback is defined in the Constant Component, and playback is supported by passing the information defined as IDevice to the Player Component.
+
+Camera Discovery was implemented using a separate Chrome Extension. Once the camera search is completed, CCTV information is filled into the Device Table based on the searched information, and when the camera user and password are entered, IDevice information is created and data is stored in the Player Component. It is configured to automatically play by transmitting it.
+
+In the case of Multi Channel, the method is the same as above, but the maximum information of the channel has already been secured through SUNAPI cgi, and all channels of the camera are configured as a preview screen.
+
+The MultiPlayerPage component configures the player and the Grid screen to play the selected screen by clicking on the corresponding Grid Preview screen.
 ### Single Player screen shot
 ![image](https://github.com/melchi45/React-Wisenet-Player/assets/11993085/5a206e2c-cee8-41cc-b24b-99730f73838f)
 
