@@ -1,16 +1,17 @@
 {
-  "name": "chrome-extension-boilerplate-react",
+  "name": "react-wisenet-player",
   "version": "5.0.4",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
+  "description": "A chrome extension for Hanwha Security Device built with React 18, Webpack 5, and Webpack Dev Server 4",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/melchi45/react-wisenet-player.git"
   },
   "scripts": {
     "build": "node utils/build.js",
     "start": "node utils/webserver.js",
-    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
+    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "clean": "rimraf build"
   },
   "dependencies": {
     "@babel/plugin-syntax-flow": "7.23.3",
@@ -65,6 +66,7 @@
     "prettier": "^3.1.0",
     "react-refresh": "^0.14.0",
     "react-refresh-typescript": "^2.0.9",
+    "rimraf": "^5.0.5",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "source-map-loader": "^4.0.1",

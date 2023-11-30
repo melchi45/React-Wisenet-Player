@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 6, and Webpack Dev Server 4",
+  "name": "Hanwha Wisenet Player for Hanwha Security Device based Chrome Extension with React & Webpack",
+  "description": "A chrome extension for Hanwha Security Device built with React 18, Webpack 5, and Webpack Dev Server 4",
   "Extension ID comment": [
     "aleblbammdopgjlaainhggebjfgfkpdf",
     "https://itero.plasmo.com/tools/generate-keypairs"

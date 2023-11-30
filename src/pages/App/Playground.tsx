@@ -600,17 +600,17 @@ export const Playground: React.FC = () => {
               <SubMenu
                 label="Player"
                 icon={<BarChart />}
-                suffix={
-                  <Badge variant="danger" shape="circle">
-                    6
-                  </Badge>
-                }
+              // suffix={
+              //   <Badge variant="danger" shape="circle">
+              //     6
+              //   </Badge>
+              // }
               >
                 <MenuItem component={<Link to="app.html" className="link" />}> Main Page</MenuItem>
                 <MenuItem component={<Link to="singleplayer" className="link" />}> Single Player</MenuItem>
                 <MenuItem component={<Link to="multiplayer" className="link" />}> Multi Player</MenuItem>
               </SubMenu>
-              <SubMenu
+              {/* <SubMenu
                 label="Charts"
                 icon={<BarChart />}
                 suffix={
@@ -647,10 +647,10 @@ export const Playground: React.FC = () => {
                 <MenuItem> Product</MenuItem>
                 <MenuItem> Orders</MenuItem>
                 <MenuItem> Credit card</MenuItem>
-              </SubMenu>
+              </SubMenu> */}
             </Menu>
 
-            <div style={{ padding: '0 24px', marginBottom: '8px', marginTop: '32px' }}>
+            {/* <div style={{ padding: '0 24px', marginBottom: '8px', marginTop: '32px' }}>
               <Typography
                 variant="body2"
                 fontWeight={600}
@@ -668,7 +668,7 @@ export const Playground: React.FC = () => {
               <MenuItem disabled icon={<Service />}>
                 Examples
               </MenuItem>
-            </Menu>
+            </Menu> */}
           </div>
           <SidebarFooter collapsed={collapsed} />
         </div>
@@ -686,11 +686,10 @@ export const Playground: React.FC = () => {
           </div>
           <div style={{ marginBottom: '16px' }}>
             <Typography variant="h4" fontWeight={600}>
-              React Pro Sidebar
+              React Wisenet Player
             </Typography>
             <Typography variant="body2">
-              React Pro Sidebar provides a set of components for creating high level and
-              customizable side navigation
+              React Wisenet Player provides a play of components based React for Hanwha Security Device player on Web browser environment.
             </Typography>
             <PackageBadges />
           </div>
@@ -730,7 +729,7 @@ export const Playground: React.FC = () => {
         </header>
         <content>
           <Routes>
-            <Route path="/app.html" element={<div className='content'>메인페이지임</div>} />
+            <Route path="/app.html" element={<div className='content'>Empty Page</div>} />
             <Route path="singleplayer" element={<SinglePlayerPage device={selectedDevice} />} />
             <Route path="multiplayer" element={<MultiPlayerPage devices={selectedDevices} />} />
           </Routes>
