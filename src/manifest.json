@@ -1,7 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "description": "A chrome extension boilerplate built with React 18, Webpack 6, and Webpack Dev Server 4",
+  "Extension ID comment": [
+    "aleblbammdopgjlaainhggebjfgfkpdf",
+    "https://itero.plasmo.com/tools/generate-keypairs"
+  ],
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvaVAOUs03p0QqqeH82D6iMuQlrxuD2eEft9Zli9ejwTiIxQvlLp/VrvszX0FPbIqkVH7Bah3Z+6QOCrhlIQ/eAgvpzk7hQoFmwQXtl/cBic5cdBOscb1pjFZMS75mkksF95RwEVeRUL2WIsOeOoQU7HvM8KacS0acFuQg189/wFq4vBqESE7cd6/9ez+oSVLLOwdkR4pAs5f/Rfrat6VUCc+qs0aa3jZiFRT83i/5S/iIJUC888K5ifkICHYjhRqGzJIUsnoxmNiGPRGmg/rK/oAUeeDchrJyG01c2xnrQvxOeWeX6dndtxWOc+6TUQOGnTQuBLSo/xFZsXcp9ORBQIDAQAB",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js", "type": "module" },
   "action": {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SplitPane, { Pane } from 'react-split-pane';
+import SplitPane, { Pane } from 'split-pane-react';
 import {
   IDevice,
   MultiDevicesProps
@@ -8,12 +8,13 @@ import {
 import Player from '../../components/ump-player/Player';
 // import Devices from './Devices';
 
+import './styles/SplitPane.scss';
 
 export const MultiPlayerPage: React.FC<MultiDevicesProps> = (props: MultiDevicesProps) => {
   // https://reactjsexample.com/resizable-split-panes-for-react-js/
   const [sizes, setSizes] = useState([
-    '60%',
     'auto',
+    '320'
   ]);
   const [selectedDevice, setSelectedDevices] = useState<IDevice>({
     id: "ump-player",
@@ -63,6 +64,17 @@ export const MultiPlayerPage: React.FC<MultiDevicesProps> = (props: MultiDevices
     console.log('Drag finished');
   };
 
+  const style = (width: string, color: string) => {
+    return {
+      width: width,
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: color
+    };
+  }
+
   return (
     <div className="container-block">
       <div className="grid-container">
@@ -70,13 +82,7 @@ export const MultiPlayerPage: React.FC<MultiDevicesProps> = (props: MultiDevices
           split="vertical"
           sizes={sizes}
           onChange={setSizes}
-          primary="second"
-          // defaultSize={800}
-          // maxSize={2400}
-          minSize={340}
-          onDragStarted={handleDragStarted}
-          onDrag={handleDrag}
-          onDragFinished={handleDragFinished}>
+          primary="second">
           <Pane className="grid-main">
             {/* {state.selectedDevice.map((device: IDevice) => ( */}
             <div className="player-block" key={selectedDevice.id}>
@@ -84,7 +90,7 @@ export const MultiPlayerPage: React.FC<MultiDevicesProps> = (props: MultiDevices
             </div>
             {/* ))} */}
           </Pane>
-          <Pane className="grid-flow">
+          <Pane className="grid-flow" minSize={320}>
             {props.devices.map((device: IDevice) => (
               <div className="player-block" key={device.id} onClick={() => onClick(device)}>
                 <Player device={device} control={true} />
