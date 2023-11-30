@@ -29,9 +29,9 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "@melchi45:registry=https://npm.pkg.github.com" >> ~/.npmrc
-        echo "npm.pkg.github.com/:_authToken=${{env.GITHUB_TOKEN}}" >> ~/.npmrc
-        cat ~/.npmrc
+        echo "@melchi45:registry=https://npm.pkg.github.com" >> .npmrc
+        echo "//npm.pkg.github.com/:_authToken=${{env.GITHUB_TOKEN}}" >> .npmrc
+        cat .npmrc
 
     - name: Build
       run: |
