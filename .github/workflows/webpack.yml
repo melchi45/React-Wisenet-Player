@@ -12,7 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
+        # node-version: [14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -21,6 +22,16 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        
+    - name: Set Publish Token
+      env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "@melchi45:registry=https://npm.pkg.github.com" >> ~/.npmrc
+        echo "npm.pkg.github.com/:_authToken=${{env.NPM_TOKEN}}" >> ~/.npmrc
+        cat ~/.npmrc
 
     - name: Build
       run: |
