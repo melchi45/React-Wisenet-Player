@@ -156,11 +156,11 @@ Michael Xieyang Liu | [Website](https://lxieyang.github.io)
 ---
 
 ## Wisenet Player
-Wisenet Player is Hanwha Vision's CCTV video player for CCTV.
+Wisenet Player is Hanwha Vision's IPTV video player on Chrome/Edge extension.
 
 This source code includes ump-player and React for a media player using the video tag in a web browser.
 Includes a WASM decoder that uses .
-The Player component can reuse the player for each camera and channel.
+The Player component can be reuse the player for single channel or multiple channels.
 
 The information required for video playback is defined in the Constant Component, and playback is supported by passing the information defined as IDevice to the Player Component.
 
