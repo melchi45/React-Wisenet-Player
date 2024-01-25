@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Dispatch } from 'react';
 import { useLocation } from 'react-router-dom';
-import { IDevice, SingleDevicesProps } from '../../components/ump-player/Constant/Constant';
+// import { IDevice, SingleDevicesProps } from '../../components/ump-player/Constant/Constant';
 import Player from '../../components/ump-player/Player';
 // import device_local from '../../assets/json/device_1.json';
 
@@ -19,7 +19,7 @@ export const SinglePlayerPage: React.FC<SingleDevicesProps> = (props) => {
 
   return (
     <div className="player-block">
-      <Player id="player1" device={props.device} control={true} />
+      <Player device={props.device} control={true} />
     </div>
   );
 };

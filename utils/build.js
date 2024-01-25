@@ -15,6 +15,8 @@ config.mode = 'production';
 
 var packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
+console.log("Name: " + packageInfo.name + ", Version: " + packageInfo.version);
+
 config.plugins = (config.plugins || []).concat(
   new ZipPlugin({
     filename: `${packageInfo.name}-${packageInfo.version}.zip`,

@@ -43,6 +43,7 @@ export const MultiPlayerPage: React.FC<MultiDevicesProps> = (props: MultiDevices
   }, []);
 
   const onClick = (item: IDevice) => {
+    console.log("Selected device: " + JSON.stringify(item));
     let result = props.devices
       .filter((device: IDevice): device is IDevice => {
         return device.id === item.id;

@@ -37,7 +37,7 @@ import {
 } from '../../ump-player/Constant/Constant';
 import { SunapiManager } from '../../ump-player/sunapi/SunapiManager';
 
-const fastJsonStringfy = window.fastJsonStringfy;
+// const fastJsonStringfy = window.fastJsonStringfy;
 
 interface PropsWithHandler extends DeviceTableProps {
   handleSelectedDevice: (device: ISearchDevice) => void;
@@ -363,7 +363,7 @@ export const DeviceTable: React.FC<PropsWithHandler> = ({ devices, selectedDevic
     event: MuiEvent<React.MouseEvent<HTMLElement>>, // MuiEvent<React.MouseEvent<HTMLElement>>
     details: GridCallbackDetails, // GridCallbackDetails
   ) => {
-    console.log(fastJsonStringfy(params.row));
+    // console.log(fastJsonStringfy(params.row));
     setSelectedRow(params.row);
     handleSelectedDevice(params.row);
   };

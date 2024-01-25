@@ -1,26 +1,26 @@
-export const UmpPlayType = {
-  LIVE: 0, // 0
-  PLAYBACK: 1, // 1
-  BACKUP: 2, // 2
-  INSTANTPLAYBACK: 3, // 3
+export enum UmpPlayType {
+  LIVE = 0, // 0
+  PLAYBACK = 1, // 1
+  BACKUP = 2, // 2
+  INSTANTPLAYBACK = 3, // 3
 };
 
-export const UmpPlayState = {
-  STOPPED: 0, // 0
-  PLAYING: 1, // 1
-  PAUSED: 2, // 2
-  STEP: 3, // 3
+export enum UmpPlayState {
+  STOPPED = 0, // 0
+  PLAYING = 1, // 1
+  PAUSED = 2, // 2
+  STEP = 3, // 3
 };
 
-export const UmpPlaybackControlType = {
-  NONE: 0, // 0
-  RESUME: 1, // 1
-  SEEK: 2, // 2
-  FORWARD: 3, // 3
-  BACKWARD: 4, // 4
-  PAUSE: 5, // 5
-  SPEED: 6, // 6
-  BACKUP: 7, // 7
+export enum UmpPlaybackControlType {
+  NONE = 0, // 0
+  RESUME = 1, // 1
+  SEEK = 2, // 2
+  FORWARD = 3, // 3
+  BACKWARD = 4, // 4
+  PAUSE = 5, // 5
+  SPEED = 6, // 6
+  BACKUP = 7, // 7
 };
 
 export const UmpPlaySpeed = {
@@ -218,37 +218,37 @@ export const deviceChannelOptions = [
 ];
 
 export interface ISearchDevice {
-  id: String,
-  Model: String,
-  Type: Number,
-  Username: String,
-  Password: String,
-  IPAddress: String,
-  MACAddress: String,
-  Port: Number,
-  Channel: Number,
-  MaxChannel: Number,
-  HttpType: Boolean,
-  HttpPort: Number,
-  HttpsPort: Number,
-  Gateway: String,
-  SubnetMask: String,
+  id: string,
+  Model: string,
+  Type: number,
+  Username: string,
+  Password: string,
+  IPAddress: string,
+  MACAddress: string,
+  Port: number,
+  Channel: number,
+  MaxChannel: number,
+  HttpType: boolean,
+  HttpPort: number,
+  HttpsPort: number,
+  Gateway: string,
+  SubnetMask: string,
   SupportSunapi: boolean,
-  URL: String
+  URL: string
 };
 
 export interface IDevice {
-  id: String;
-  hostname: String;
-  port: Number;
-  username: String;
-  profile: String;
-  channel: Number;
-  device: String;
+  id: string;
+  hostname: string;
+  port: number;
+  username: string;
+  profile: string;
+  channel: number;
+  device: string;
   password: String;
-  autoplay: Boolean;
-  statistics: Boolean;
-  https: Boolean;
+  autoplay: boolean;
+  statistics: boolean;
+  https: boolean;
 };
 
 export interface SearchDevicesProps {
@@ -291,4 +291,69 @@ export interface IInitializedData {
   MaxChannel: number;
   MaxPasswordLength: number;
   NewPasswordPolicy: boolean;
+}
+
+export interface PlayerProps {
+  device: IDevice;
+  control: boolean;
+};
+
+export enum MediaType {
+  Audio = 'audio',
+  Video = 'video'
+}
+
+export enum StatisticsType {
+  rtp = 'rtp',
+  fps = 'fps',
+  network = 'network'
+}
+
+export enum AudioCodecType {
+  G711 = 'G.711',
+  G726 = 'G.726',
+  AAC = 'AAC'
+}
+
+export enum VideoCodecType {
+  MJPEG = 'MJPEG',
+  H264 = 'H.264',
+  H265 = 'H.265'
+}
+
+export interface RTPStatistics {
+  type: StatisticsType;
+  channelId: number;
+  interleavedId: number;
+  codec: AudioCodecType | VideoCodecType;
+  media: MediaType;
+  fps: number;
+  interval: number;
+  receviedPacket: number;
+  droppedPacket: number;
+}
+
+export interface FPSStatistics {
+  type: StatisticsType;
+  channelId: number;
+  width: number;
+  height: 2160;
+  fps: number;
+  decodedPerSec: number;
+  decodedFrames: number;
+  decodedFramesMean: number;
+  decodedBytesDecodedPerSec: number;
+  decodedBytesMean: number;
+  dropFramesCount: number;
+  dropFramesMean: number;
+  bps: number;
+  latency: number;
+  limit: number;
+  chunksize: number;
+}
+
+export interface Statistics {
+  statistics: RTPStatistics | FPSStatistics;
+  channelId: number;
+  elementId: string;
 }

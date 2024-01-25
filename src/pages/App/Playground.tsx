@@ -333,7 +333,7 @@ export const Playground: React.FC = () => {
         let sunapimanager = new SunapiManager();
         sunapimanager.init(client)
           .then((data: IInitializedData) => {
-            console.log(window.fastJsonStringfy(data));
+            // console.log(window.fastJsonStringfy(data));
             if (data.Initialized) {
               var result = deviceChannelOptions.filter((item) => item.value <= data.MaxChannel);
               device.MaxChannel = data.MaxChannel;
@@ -392,7 +392,7 @@ export const Playground: React.FC = () => {
 
   const asyncMain = async (device: ISearchDevice): Promise<ISearchDevice> => {
     let result = await connectSunapi(device);
-    console.log(window.fastJsonStringfy(result));
+    console.log(JSON.stringify(result));
     fetchDevices(result, 1);
     const newDevice: IDevice = {
       id: "ump-player-1",
@@ -415,16 +415,16 @@ export const Playground: React.FC = () => {
       selectedDevice.https !== newDevice.https) {
       // set device information
       setSelectedDevice(newDevice);
-      navigate("singleplayer", { state: { device: newDevice } });
-      //Set some content from background page
-      chrome.storage.local.set({ device: newDevice }, function () {
-        console.log("Storage Succesful");
-      });
-      //get all contents of chrome storage
-      chrome.storage.local.get(null, function (obj) {
-        console.log("Read content data of chrome storage => " + JSON.stringify(obj));
-      });
     }
+    navigate("singleplayer", { state: { device: selectedDevice } });
+    //Set some content from background page
+    chrome.storage.local.set({ device: selectedDevice }, function () {
+      console.log("Storage Succesful");
+    });
+    //get all contents of chrome storage
+    chrome.storage.local.get(null, function (obj) {
+      console.log("Read content data of chrome storage => " + JSON.stringify(obj));
+    });
 
     return result;
   };
